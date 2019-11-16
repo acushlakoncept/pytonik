@@ -7,8 +7,7 @@
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
 
 Model View Controller in Python
-
-It is easy to use, design using oop(Object Oriented Programming) Pattern.
+It is easy to use with an oop(Object Oriented Programming) Pattern.
 It runs on multiple servers such as WINDOWS, MAC OS, LINUX.
 
 [![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
@@ -16,6 +15,18 @@ It runs on multiple servers such as WINDOWS, MAC OS, LINUX.
 ## How to setup
 if you are running a local machine you will need to install either, wamp, xampp, lamp or mamp. 
 Enable CGI on your httpd.conf file as follows:
+```
+<Directory "/var/www/cgi-bin">
+   AllowOverride None
+   Options ExecCGI
+   Order allow, deny
+   Allow from all
+</Directory>
+
+<Directory "/var/www/cgi-bin">
+Options All
+</Directory>
+```
 
 
 ## How to install
@@ -25,7 +36,30 @@ We recommend you to install this MVC package using Command Line
 $ pip install pytonik
 ```
 
-For more information on how to use, kindly visit: [pytonik](https://github.com/pytonik/1.0.3)
+You have to set the app file structures to be able to start your web application.
+Below are the file structures:
+
+```
+ |─MypytonikFolder                            application folder 
+ 	|─controller
+		|─ IndexController.py 
+ 	|─ lang
+		|─ en.py
+ 	|─ model
+ 	|─ public  
+		|─ asset
+ 	|─ views                                   
+		|─ Includefolder
+			|─ header.html
+		|─ 404.html
+		|─ page.html
+│      .env
+│      .htaccess
 
 
+```
+Download sample file on how to start at [SampleFolder](https://github.com/pytonik/SampleFolder)
+
+You can accomplish any task with pytonik. 
+All python files (.py extension) permission should always be set to **755**
 
