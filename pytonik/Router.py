@@ -9,7 +9,7 @@
 
 
 import sys, os, cgitb
-from . import Version, Config, Log
+from pytonik import Version, Config, Log
 cgitb.enable()
 url = os.environ['REQUEST_URI']
 log_msg = Log.Log()
