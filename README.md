@@ -63,11 +63,17 @@ Download sample file on how to start at [SampleFolder](https://github.com/pytoni
 You can accomplish any task with pytonik. 
 All python files (.py extension) permission should always be set to **755**
 
-Contact Maintainer:  Emmanuel Essien
+## Contact Information: 
 
-Contact Maintainer Email: emmamartinscm@gmail.com
+**Name:**  Emmanuel Essien
 
-Donate to support our effort while waiting for great release of this framework:
+**Email:** emmamartinscm@gmail.com
+
+
+
+Donate to support our effort while waiting for great release of pytonik framework:
+
+
 
 Bitcoin: **3Cz8J1tvLgvGmPLPcK4XwNckruEsCvCCgX**
 
