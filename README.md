@@ -65,9 +65,9 @@ All python files (.py extension) permission should always be set to **755**
 
 ## Contact Information: 
 
-**Name:**  Emmanuel Essien
+**Name:**  pytonik MVC
 
-**Email:** emmamartinscm@gmail.com
+**Email:** pytonikmvc@gmail.com
 
 
 
