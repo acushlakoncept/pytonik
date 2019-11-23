@@ -58,7 +58,7 @@ Below are the file structures:
 
 
 ```
-Download sample file on how to start at [SampleFolder](https://github.com/pytonik/SampleFolder)
+Download sample file on how to start at [SampleFolder](https://github.com/betacodings/SampleFolder)
 
 You can accomplish any task with pytonik. 
 All python files (.py extension) permission should always be set to **755**
