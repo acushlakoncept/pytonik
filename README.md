@@ -60,6 +60,33 @@ Below are the file structures:
 ```
 Download file Structure [Folder-Structure](https://github.com/pytonik/Folder-Structure)
 
+### how to get started
+create a folder with a name **public** inside the folder create file with a name **index.py**
+write the below code sample
+
+```
+#!/usr/local/bin/python
+
+try:
+    from pytonik import Web
+except Exception as err:
+    exit(err)
+
+App = Web.App()
+App.runs()
+```
+
+Inside public folder, create a file with a name ***.htaccess** file 
+write the below code sample
+```
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.py/$1 [L]
+</IfModule>
+```
+
 You can accomplish any task with pytonik. 
 All python files (.py extension) permission should always be set to **755**
 
