@@ -139,7 +139,7 @@ RewriteRule ^(.*)$ index.py/$1 [L]
 </IfModule>
 ```
 create a file with a name ***IndexController.py*** inside ***Controllers*** folder, this will serve as a default controller. 
-create a file with a name ***homepage.html*** inside ***views*** folder, views folder is were all html templeta will be reserved and will be called from.
+create a file with a name ***homepage.html*** inside ***views*** folder, views folder is were all html template will be reserved and called from.
 write the below code sample
 
 ```
