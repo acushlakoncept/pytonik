@@ -6,15 +6,17 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
 
+<p align="center">
+  <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/57829979?s=460&v=4">
+</p>
+
 Model View Controller in Python
 It is easy to use with an oop(Object Oriented Programming) Pattern.
 It runs on multiple servers such as WINDOWS, MAC OS, LINUX.
 
 [![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
 
-<p align="center">
-  <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/57829979?s=460&v=4">
-</p>
+
 
 ## How to setup
 if you are running a local machine you will need to install either, wamp, xampp, lamp or mamp. 
