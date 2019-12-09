@@ -47,7 +47,9 @@ Below are the file structures:
 		|─ en.py
  	|─ model
  	|─ public  
-		|─ asset
+		|─ assets
+		|- .htaccess
+		|- index.py
  	|─ views                                   
 		|─ Includefolder
 			|─ header.html
