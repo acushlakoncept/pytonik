@@ -62,7 +62,7 @@ Download file Structure [Folder-Structure](https://github.com/pytonik/Folder-Str
 
 ### How to get started
 once the file structure is created. follow the file structure above or download [Folder-Structure](https://github.com/pytonik/Folder-Structure)
-create a file with a name ***.htaccess***
+create a file with a name **.htaccess**
 write the below code sample
 
 ```
@@ -75,7 +75,7 @@ Options +ExecCGI
 </IfModule>
 ````
 
-create a file with a name ***.env*** to learn how about the ***.env*** file check [pytonik-env]((https://github.com/pytonik/.env)
+create a file with a name **.env** to learn how about the **.env** file check [pytonik-env]((https://github.com/pytonik/.env)
 write the below code sample
 
 ```
@@ -128,7 +128,7 @@ App = Web.App()
 App.runs()
 ```
 
-Inside public folder, create a file with a name ***.htaccess** file 
+Inside public folder, create a file with a name **.htaccess** file 
 write the below code sample
 ```
 <IfModule mod_rewrite.c>
@@ -138,8 +138,8 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.py/$1 [L]
 </IfModule>
 ```
-create a file with a name ***IndexController.py*** inside ***Controllers*** folder, this will serve as a default controller. 
-create a file with a name ***homepage.html*** inside ***views*** folder, views folder is were all html template will be reserved and called from.
+create a file with a name **IndexController.py** inside **Controller** folder, this will serve as a default controller. 
+create a file with a name **homepage.html** inside **views** folder, views folder is were all html template will be reserved and called from.
 write the below code sample
 
 ```
