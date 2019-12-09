@@ -147,3 +147,26 @@ def file_get_contents(self, filename, use_include_path=0, context=None, offset=-
             log_msg.critical(err)
         finally:
             fp.close()
+
+def datetime(formate = "%Y-%m-%d %H:%M:%S"):
+    from datetime import datetime
+
+    try:
+        return datetime.now() if formate is "" else  datetime.strftime(datetime.now(), formate)
+
+    except Exception as err:
+        return err
+
+
+def iteri(dictionary="", itr="xid"):
+    i = 0
+    if dictionary is not "" or dictionary is not None:
+        dist, apend = [], []
+        for l in dictionary:
+            i += 1
+            ++i
+            listv = l
+            dist = {itr: i}
+            dist.update(listv)
+            apend.append(dist)
+        return apend

@@ -20,14 +20,14 @@ class include():
 
         return  None
 
-    def include(self, *args, **kwargs):
+    def include(self, path=""):
+
         host = os.path.dirname(os.getcwd())
         DS = str("/")
-        pth = ""
-        for v in args:
-            pth = v
+        pth = path
 
         split = pth.split('.')
+
 
         fileExists = []
         for x in split:
@@ -46,7 +46,9 @@ class include():
 
             if os.path.isdir(direct) == True:
 
+
                 if os.path.isfile(template_dir+".html") == True:
+
                     loadm0 = Ap.loadmodule()
                     return self.read_html(direct, engine, loadm0)
                 else:

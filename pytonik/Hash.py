@@ -46,13 +46,13 @@ class Hash:
     def get_hash_sha256(self, type = 'key'):
 
         self.storage = self.salt + self.hashS
+        value = ""
         if type == "key":
             value = self.storage[:32]
         elif type == "salt":
             value = self.storage[32:]
         else:
-            print("Invalid type, choose key or salt")
-            return False
+            return "Invalid type, choose key or salt"
         return value
 
     def verify_hash(self, key):

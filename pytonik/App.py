@@ -234,6 +234,9 @@ class App(Router):
     def redirect(self, location='/'):
         print("Location: {location}".format(location=location))
 
+    def referer(self, location='/'):
+        print("Location: {location}".format(location=os.environ.get('HTTP_REFERER', location)))
+
     @staticmethod
     def header(p=0, type="text/html"):
         import sys
@@ -265,15 +268,12 @@ class App(Router):
 
         if os.path.isfile(pathfhtml) == False:
 
-            data = {}
-
             ##check page
             error_page_html = host + DS + 'views' + DS + "404.html"
             error_page_class = host + DS + 'controller' + DS + "ErrorController" + ".py"
 
             if os.path.isfile(error_page_html) == True and os.path.isfile(error_page_class) == True:
                 self.vpathf = error_page_html
-
             else:
                 try:
 
@@ -363,7 +363,6 @@ class App(Router):
             current_module_name = os.path.splitext(os.path.basename(current_dir))[0]
 
             for file in glob.glob(os.path.join(current_dir + "/*.py")):
-
                 name = os.path.splitext(os.path.basename(file))[0]
                 i = i + 1
                 # Ignore __ files

@@ -41,7 +41,7 @@ def upload(fileitem, uploaddir, rename=""):
             if rename == "":
                 fname = os.path.basename(fileitem.filename)
             else:
-                fname = str(rename) + "_" + os.path.basename(fileitem.filename)
+                fname = str(rename) + os.path.basename(fileitem.filename)
 
             try:
                 result = open(uploaddir + fname, 'wb')
@@ -55,8 +55,14 @@ def upload(fileitem, uploaddir, rename=""):
         else:
             return ""
     else:
-        print("Directory Does not Exist")
+        return "Directory Does not Exist"
 
+def delete(directory, file):
+    if os.path.isfile(str(directory)+str(file)):
+        return os.remove(str(directory)+str(file))
+    else:
+        log_msg.error("The file does not exist")
+        return ("The file does not exist")
 
 def ext(filename):
     fn = os.path.splitext(filename)[1][1:]

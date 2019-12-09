@@ -38,7 +38,7 @@ class MYSQLiDB:
                     passwd=self.password,
                     database=self.database
             )
-            self.con = self.conn.cursor(dictionary=True)
+
 
         except mysql.connector.Error as err:
             log_msg.error(err)
@@ -46,14 +46,24 @@ class MYSQLiDB:
 
 
     def query(self, sql="", value = ""):
-
+        self.con = self.conn.cursor(dictionary=True)
         if sql !="" and value != "":
             self.con.execute(str(sql), value)
         else:
             self.con.execute(str(sql))
             #self.result = self.con.fetchall()
             #self.fetch()
-        return self.con
+        return self
+
+    def querymultiple(self, sql="", value = ""):
+        self.con = self.conn.cursor(dictionary=True)
+        if sql !="" and value != "":
+            self.con.executemany(str(sql), value)
+        else:
+            self.con.executemany(str(sql))
+            #self.result = self.con.fetchall()
+            #self.fetch()
+        return self
 
 
     def insert_id(self):
@@ -63,27 +73,23 @@ class MYSQLiDB:
         return self.con.lastrowid
 
     def fetch(self):
-        import json
-
         if self.result != "" and self.result is not None:
             return self.result
         else:
             return False
 
-    global dictv
-    dictv = dict()
-    def addDict(self, k, v):
+    def queryone(self, sql="", value = ""):
+        self.con = self.conn.cursor(buffered=True)
+        if sql !="" and value != "":
+            self.con.execute(str(sql), value)
+        else:
+            self.con.execute(str(sql))
 
-        for i in dictv:
-            if i == k:
-                print(i)
-                print('error')
-                return
-        #dictv[k] = v
+        return self.con
 
     def all(self):
         self.result = self.con.fetchall()
-        return  self.fetch()
+        return self.fetch()
 
     def one(self):
         return self.con.fetchone()
@@ -104,4 +110,40 @@ class MYSQLiDB:
 
     def close(self):
         return self.con.close()
+
+    def create(self, TABLES = ''):
+        if TABLES:
+            for table_name in TABLES:
+                table_description = TABLES[table_name]
+                try:
+                    self.con.execute(table_description)
+                    return True
+                except mysql.connector.Error as err:
+                    if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+                        log_msg.info("Database table '{}' already exists.".format(table_name))
+                        return "Database table '{}' already exists.".format(table_name)
+
+                    else:
+                        log_msg.error(err)
+                        return err
+        else:
+         return False
+
+    def database(self):
+        cnx = mysql.connector.connect(user=self.username)
+        cursor = cnx.cursor()
+        try:
+            cursor.execute("USE {}".format(self.database))
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_BAD_DB_ERROR:
+                cursor.execute(
+                    "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(self.database))
+                log_msg.info("Database {} created successfully.".format(self.database))
+            else:
+                log_msg.error(err)
+                return err
+
+        cursor.close()
+        cnx.close()
+
 

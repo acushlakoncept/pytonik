@@ -17,7 +17,7 @@ class Request:
         self.attr = cgi.FieldStorage()
         self.type = os.environ
         self.Router = Router.Router()
-
+        self.method = self.type.get('REQUEST_METHOD', '')
 
     def get(self, key=0, error=0):
         try:
@@ -33,7 +33,9 @@ class Request:
                 else:
                     return ""
             else:
-                print("advise use POST instead of GET")
+
+                log_msg.info("advise use POST instead of GET")
+                return False
         except Exception as err:
             log_msg.info(err)
             return  err
@@ -52,7 +54,8 @@ class Request:
                     return ""
             else:
 
-                print("advise use GET instead of POST")
+                log_msg.info("advise use GET instead of POST")
+                return False
         except Exception as err:
             log_msg.info(err)
             return err
@@ -81,18 +84,12 @@ class Request:
     def params(self, key=0):
         try:
             if 'POST' in self.type.get('REQUEST_METHOD'):
-
-                print("advise use GET or POST instead of PARAMS")
+                log_msg.info("advise use POST instead of PARAMS")
+                return False
             else:
                 para = self.Router.getParams()
-
                 if para != "" or para is not None:
-                    for k in para.keys():
-                        if key in para:
-                            if para[k] != "" or para[k] is not None:
-                                return para[k]
-                            return ""
-                    return ""
+                    return para.get(key, '')
                 else:
                     return self.get(key)
 

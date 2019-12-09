@@ -93,7 +93,7 @@ def eval_expression(expr):
     try:
         return 'literal', ast.literal_eval(expr)
     except Exception as err:
-        log_msg.error("name {} === {}".format(expr, err))
+
         return 'name', expr
 
 
@@ -212,7 +212,7 @@ class _Each(_ScopableNode):
         def render_item(item):
             Ap = App.App()
             loadm0 = Ap.loadmodule()
-            loadm1 = {'.': context, 'it': item,}
+            loadm1 = {'..': context, 'it': item,}
             loadm0.update(loadm1)
 
             return self.render_children(loadm0)
@@ -347,7 +347,6 @@ class _Call(_Node):
 
             if hasattr(ob(), '__call__'):
                  _cal = ob()
-                 print("")
                  _new_cal = getattr(_cal, *resolved_args)
                  calls =  _new_cal(**resolved_kwargs)
                  return calls

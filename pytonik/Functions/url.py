@@ -11,7 +11,7 @@ class url():
         return item
 
     def __init__(self, *args, **kwargs):
-        print(**kwargs)
+
         return None
 
 
@@ -27,7 +27,7 @@ class url():
         if path != "":
             return  DS + path
         elif  public !=  "":
-            return DS+'public' + DS + public
+            return "/"+'public' + DS + public
 
 
 
@@ -42,9 +42,9 @@ class url():
             DS = ""
         else:
             if path[:1] == "/":
-                DS = ""
-            else:
                 DS = "/"
+            else:
+                DS = ""
         return url + DS + path[1:]
 
 
