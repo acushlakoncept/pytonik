@@ -75,7 +75,7 @@ Options +ExecCGI
 </IfModule>
 ````
 
-create a file with a name **.env** to learn how about the **.env** file check [pytonik-env]((https://github.com/pytonik/.env)
+create a file with a name **.env** to learn how about the **.env** file check [pytonik-env](https://github.com/pytonik/.env)
 write the below code sample
 
 ```
