@@ -60,8 +60,60 @@ Below are the file structures:
 ```
 Download file Structure [Folder-Structure](https://github.com/pytonik/Folder-Structure)
 
-### how to get started
-create a folder with a name **public** inside the folder create file with a name **index.py**
+### How to get started
+once the file structure is created. follow the file structure above or download [Folder-Structure](https://github.com/pytonik/Folder-Structure)
+create a file with a name ***.htaccess***
+write the below code sample
+
+```
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule ^$ public/
+RewriteRule (.*) public/$1 [NC,L]
+AddHandler cgi-script .cgi .py
+Options +ExecCGI
+</IfModule>
+````
+
+create a file with a name ***.env*** to learn how about the ***.env*** file check [pytonik-env]((https://github.com/pytonik/.env)
+write the below code sample
+
+```
+{'route':
+        {
+        'default': '',
+        },
+'dbConnect':
+         {
+              'host': 'localhost',
+              'database': 'pytonik-database',
+              'password': 'database-password',
+              'username': 'database-username',
+              'port': 'database-port',
+              'driver': 'MYSQLi'
+         },
+'languages':
+{
+   'en': '',
+   'fr': '',
+   'ef': '',
+},
+'SMTP':
+{
+    'server':   'test@server.com',
+    'port':     '25',
+    'username': 'test@example.com',
+    'password': 'testpassword',
+},
+'default_actions': 'index',
+'default_controllers' :'index',
+'default_routes' :'index',
+'default_languages':'en'
+}
+
+```
+
+create a folder with a name **public** inside the folder, create a file with a name **index.py**
 write the below code sample
 
 ```
@@ -86,6 +138,23 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.py/$1 [L]
 </IfModule>
 ```
+create a file with a name ***IndexController.py*** inside ***Controllers*** folder, this will serve as a default controller. 
+create a file with a name ***homepage.html*** inside ***views*** folder, views folder is were all html templeta will be reserved and will be called from.
+write the below code sample
+
+```
+from pytonik import Web
+m = Web.App()
+def index():
+    data = {
+        'title': "Home",
+  
+    }
+    m.header()
+    m.views('homepage', data)
+```
+
+Learn more on how to use pytonik MVC [MYSQL Helper](https://github.com/pytonik/pytonik_mysql_helper)
 
 You can accomplish any task with pytonik. 
 All python files (.py extension) permission should always be set to **755**
