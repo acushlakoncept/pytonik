@@ -154,6 +154,8 @@ def index():
     m.views('homepage', data)
 ```
 
+Learn how to use attribute tags and types in Pytonik Template Engine [Template Engine](https://github.com/pytonik/pytonik_template_engine)
+
 Learn more on how to use pytonik MVC [MYSQL Helper](https://github.com/pytonik/pytonik_mysql_helper)
 
 You can accomplish any task with pytonik. 
