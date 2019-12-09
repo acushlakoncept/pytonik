@@ -175,20 +175,8 @@ Download sample file on how to start at [SampleFolder](https://github.com/betaco
 
 **Name:**  pytonik MVC
 
-**Email:** pytonikmvc@gmail.com
+**Email:** dev@pytonik.com
 
 
-
-Donate to support our effort while waiting for great release of pytonik framework:
-
-
-
-Bitcoin: **3Cz8J1tvLgvGmPLPcK4XwNckruEsCvCCgX**
-
-Litecoin: **MR9gAfzeDjTxpiNro7u2yYZasdc57oiDrY**
-
-Bitcoin Cash: **qzaau9hu0vhjjnzu8hqjpedeemeysurqdczsk3w4kx**
-
-Ethereum: **0xd8443c569427fBaaDb1c055ACd26b31F8a944e01**
 
 
