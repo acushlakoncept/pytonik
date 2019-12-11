@@ -166,6 +166,11 @@ Learn how to use attribute tags and types in Pytonik Template Engine [Template E
 
 Learn more on how to use pytonik MVC [MYSQL Helper](https://github.com/pytonik/pytonik_mysql_helper)
 
+Learn more on how to use pytonik [form attributes and functions] (https://github.com/pytonik/pytonik_form/)
+
+Learn more on how to upload file with [pytonik](https://github.com/pytonik/pytonik_file_upload)
+
+
 You can accomplish any task with pytonik. 
 All python files (.py extension) permission should always be set to **755**
 
