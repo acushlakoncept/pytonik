@@ -10,9 +10,7 @@
   <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/57829979?s=460&v=4">
 </p>
 
-Model View Controller in Python
-It is easy to use with an oop(Object Oriented Programming) Pattern.
-It runs on multiple servers such as WINDOWS, MAC OS, LINUX.
+Pytonik is a Model View Controller framework built to enhance web development, it’s quick to set up. Build more apps with less code. It runs on multiple servers such as WINDOWS, MAC OS, LINUX.
 
 [![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
 
