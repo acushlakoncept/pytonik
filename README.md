@@ -10,119 +10,116 @@
   <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/57829979?s=460&v=4">
 </p>
 
-Pytonik is a Model View Controller framework built to enhance web development, it’s quick to set up. Build more apps with less code. It runs on multiple servers such as WINDOWS, MAC OS, LINUX.
+Pytonik is a MVC(Model View Controller) framework built to enhance web development, it’s quick to set up. With Pytonik, you build more apps with less code. It runs on multiple operating systems including WINDOWS, MACOS, and LINUX.
 
 [![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
 
-
-
 ## How to setup
-if you are running a local machine you will need to install either, wamp, xampp, lamp or mamp. 
-Enable CGI on your httpd.conf file as follows:
+If you are on a local machine, you will need to install a web server, either WAMP, XAMPP, LAMP or MAMP, depending on your particular environment.
+After installing the server, enable CGI on your **httpd.conf** file as follows:
 ```
 <Directory "/var/www/cgi-bin">
-   AllowOverride None
-   Options ExecCGI
-   Order allow, deny
-   Allow from all
+    AllowOverride None
+    Options ExecCGI
+    Order allow, deny
+    Allow from all
 </Directory>
 
 <Directory "/var/www/cgi-bin">
-Options All
+    Options All
 </Directory>
 ```
 
+## How to Install
 
-## How to install
+We strongly recommend that you to install this package using the Command Line.
 
-We recommend you to install this MVC package using Command Line
 ```
+
 $ pip install pytonik
-```
-
-You have to set the app file structures to be able to start your web application.
-Below are the file structures:
 
 ```
- |─MypytonikFolder                            application folder 
- 	|─controller
-		|─ IndexController.py 
- 	|─ lang
-		|─ en.py
- 	|─ model
- 	|─ public  
-		|─ assets
-		|- .htaccess
-		|- index.py
- 	|─ views                                   
-		|─ Includefolder
-			|─ header.html
-		|─ 404.html
-		|─ page.html
-│      .env
-│      .htaccess
+
+In your application, you have to set the folder structure properly to be able to start your Pytonik application.
+
+Below is a sample folder structure for a Pytonik application:
+
+```
+
+|─MyPytonikApp                            (application folder)
+    |─ controller
+        |─ IndexController.py
+    |─ lang
+        |─ en.py
+    |─ model
+    |─ public  
+        |─ assets
+        |- .htaccess
+        |- index.py
+    |─ views
+        |─ 404.html
+        |─ homepage.html
+    |─ includes
+        |─ header.html
+    .env
+    .htaccess
 
 
 ```
-Download file Structure [Folder-Structure](https://github.com/pytonik/Folder-Structure)
+
+You can download the sample folder structure here [Folder-Structure](https://github.com/pytonik/Folder-Structure)
 
 ### How to get started
-once the file structure is created. follow the file structure above or download [Folder-Structure](https://github.com/pytonik/Folder-Structure)
-create a file with a name **.htaccess**
-write the below code sample
 
-```
+Once the folder structure is in place, create a file with name **.htaccess** in the root folder, open it and enter the following code block;
+
+``` HTML
 <IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteRule ^$ public/
-RewriteRule (.*) public/$1 [NC,L]
-AddHandler cgi-script .cgi .py
-Options +ExecCGI
+    RewriteEngine on
+    RewriteRule ^$ public/
+    RewriteRule (.*) public/$1 [NC,L]
+    AddHandler cgi-script .cgi .py
+    Options +ExecCGI
 </IfModule>
 ````
 
-create a file with a name **.env** to learn how about the **.env** file check [pytonik-env](https://github.com/pytonik/.env)
-write the below code sample
+Now, create a file with name **.env** in the root folder. To learn more about the **.env** file, please refer to [pytonik-env](https://github.com/pytonik/.env).
 
-```
-{'route':
-        {
-        'default': '',
-        },
-'dbConnect':
-         {
-              'host': 'localhost',
-              'database': 'pytonik-database',
-              'password': 'database-password',
-              'username': 'database-username',
-              'port': 'database-port',
-              'driver': 'MYSQLi'
-         },
-'languages':
+Inside the **.env** file, enter the following code block;
+
+``` JSON
 {
-   'en': '',
-   'fr': '',
-   'ef': '',
-},
-'SMTP':
-{
-    'server':   'test@server.com',
-    'port':     '25',
-    'username': 'test@example.com',
-    'password': 'testpassword',
-},
-'default_actions': 'index',
-'default_controllers' :'index',
-'default_routes' :'index',
-'default_languages':'en'
+    "route": {
+        "default": ""
+    },
+    "dbConnect": {
+        "host": "localhost",
+        "database": "pytonik-database",
+        "password": "database-password",
+        "username": "database-username",
+        "port": "database-port",
+        "driver": "MYSQLi"
+    },
+    "languages": ["en", "fr", "ef", "ru", "es", "kr"],
+    "SMTP": {
+        "server": "test@server.com",
+        "port": 25,
+        "username": "test@example.com",
+        "password": "testpassword"
+    },
+    "default_action": "index",
+    "default_controller": "index",
+    "default_route": "index",
+    "default_language": "en"
 }
 
 ```
 
-create a folder with a name **public** inside the folder, create a file with a name **index.py**
-write the below code sample
+Create a folder with name **public** in the root of your application (if you haven't already), and inside the folder, create a file with name **index.py**.
 
-```
+Open the new **index.py** file and enter the following code segment.
+
+``` Python
 #!/usr/local/bin/python
 
 try:
@@ -134,21 +131,24 @@ App = Web.App()
 App.runs()
 ```
 
-Inside public folder, create a file with a name **.htaccess** file 
-write the below code sample
-```
+Inside **public** folder, create another file with name **.htaccess**, open it and enter the following code block.
+
+``` HTML
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.py/$1 [L]
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.py/$1 [L]
 </IfModule>
 ```
-create a file with a name **IndexController.py** inside **Controller** folder, this will serve as a default controller. 
-create a file with a name **homepage.html** inside **views** folder, views folder is were all html template will be reserved and called from.
-write the below code sample
 
-```
+Inside **controller** folder, create a file with name **IndexController.py** (if you haven't already), this will serve as the default controller.
+
+Inside **views** folder, create a file with name **homepage.html**. **views** folder is were all html template will reside.
+
+Open **public/index.py** and enter the following code segment.
+
+``` Python
 from pytonik import Web
 m = Web.App()
 def index():
@@ -160,26 +160,26 @@ def index():
     m.views('homepage', data)
 ```
 
-Learn how to use attribute tags and types in Pytonik Template Engine [Template Engine](https://github.com/pytonik/pytonik_template_engine)
+Wooooow! The setup is complete. Congrats!.
 
-Learn more on how to use pytonik MVC [MYSQL Helper](https://github.com/pytonik/pytonik_mysql_helper)
+You can accomplish any task with Pytonik.
 
-Learn more on how to use  [pytonik form](https://github.com/pytonik/pytonik_form/)
+Note: All Python files (.py extension) should have their permissions set to **755**.
 
-Learn more on how to upload file with [pytonik](https://github.com/pytonik/pytonik_file_upload)
+## Learn more about Pytonik
 
+Learn more about using Pytonik MVC [MYSQL Helper](https://github.com/pytonik/pytonik_mysql_helper).
 
-You can accomplish any task with pytonik. 
-All python files (.py extension) permission should always be set to **755**
+Learn more about using attribute tags and types in Pytonik Template Engine [Template Engine](https://github.com/pytonik/pytonik_template_engine).
 
-Download sample file on how to start at [SampleFolder](https://github.com/betacodings/SampleFolder)
+Learn more about using forms in Pytonik [pytonik form](https://github.com/pytonik/pytonik_form/).
 
-## Contact Information: 
+Learn more about uploading files in Pytonik [pytonik](https://github.com/pytonik/pytonik_file_upload).
 
-**Name:**  pytonik MVC
+Download sample application folder to quickly get up and running with Pytonik [SampleFolder](https://github.com/betacodings/SampleFolder).
+
+## Contact
+
+**Name:**  Pytonik MVC
 
 **Email:** dev@pytonik.com
-
-
-
-
