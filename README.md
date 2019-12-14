@@ -100,7 +100,11 @@ Inside the **.env** file, enter the following code block;
         "port": "database-port",
         "driver": "MYSQLi"
     },
-    "languages": ["en", "fr", "ef", "ru", "es", "kr"],
+    "languages": {
+   'en': 'en',
+   'fr': 'fr',
+   'ef': 'ef',
+    },
     "SMTP": {
         "server": "test@server.com",
         "port": 25,
