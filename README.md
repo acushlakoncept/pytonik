@@ -102,8 +102,8 @@ Inside the **.env** file, enter the following code block;
     },
     "languages": {
        "en": "en",
-       "fr': "fr",
-       "ef': "ef",
+       "fr": "fr",
+       "ef": "ef",
     },
     "SMTP": {
         "server": "test@server.com",
@@ -157,7 +157,7 @@ from pytonik import Web
 m = Web.App()
 def index():
     data = {
-        'title': "Home",
+        "title": "Home",
   
     }
     m.header()
