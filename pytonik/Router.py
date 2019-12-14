@@ -23,10 +23,10 @@ class Router:
         Conf = Config.Config()
         Conf.add(self.env())
 
-        self.controllers = Conf.get('default_controllers')
-        self.actions = Conf.get('default_actions')
-        self.languages = Conf.get('default_languages')
-        self.routes = Conf.get('default_routes')
+        self.controllers = Conf.get('default_controller')
+        self.actions = Conf.get('default_action')
+        self.languages = Conf.get('default_language')
+        self.routes = Conf.get('default_route')
         self.methodprefix = ""
         self.params = ""
 
@@ -115,7 +115,7 @@ class Router:
                         path_parts.append(path_parts.pop(-1))
 
 
-            controllers = Conf.get('default_controllers')
+            controllers = Conf.get('default_controller')
             if controllers:
 
                 i = 0
