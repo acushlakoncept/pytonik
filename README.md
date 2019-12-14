@@ -172,13 +172,15 @@ Note: All Python files (.py extension) should have their permissions set to **75
 
 ## Learn more about Pytonik
 
-Learn more about using Pytonik MVC [MYSQL Helper](https://github.com/pytonik/pytonik_mysql_helper).
+Learn more about using Pytonik MYSQL [Helper](https://github.com/pytonik/pytonik_mysql_helper).
 
-Learn more about using attribute tags and types in Pytonik Template Engine [Template Engine](https://github.com/pytonik/pytonik_template_engine).
+Learn more about using attribute tags and types in Pytonik [Template Engine](https://github.com/pytonik/pytonik_template_engine).
 
-Learn more about using forms in Pytonik [pytonik form](https://github.com/pytonik/pytonik_form/).
+Learn more about using forms in Pytonik [Forms](https://github.com/pytonik/pytonik_form/).
 
-Learn more about uploading files in Pytonik [pytonik](https://github.com/pytonik/pytonik_file_upload).
+Learn more about using forms in Pytonik [Session](https://github.com/pytonik/pytonik_form/).
+
+Learn more about uploading files in Pytonik [File](https://github.com/pytonik/pytonik_file_upload).
 
 Download sample application folder to quickly get up and running with Pytonik [SampleFolder](https://github.com/betacodings/SampleFolder).
 
