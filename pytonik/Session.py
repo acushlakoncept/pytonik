@@ -56,11 +56,11 @@ class Session:
                 if cooKeys[key].value is not None:
                     return cooKeys[key].value
                 else:
-                    return None
+                    return ""
             else:
-                return None
+                return ""
         else:
-            return None
+            return ""
 
 
 
@@ -68,11 +68,24 @@ class Session:
     def destory(self, *args):
         if Version.PYVERSION_MA >= 3:
             cooKeys = cookies.SimpleCookie(os.environ.get('HTTP_COOKIE'))
+            cook = cooKeys.items()
         else:
+
             cooKeys = Cookie.SimpleCookie(os.environ.get('HTTP_COOKIE'))
+            cook = cooKeys.iteritems()
+
         if "HTTP_COOKIE" in os.environ:
-            for key in args:
-                if self.get(key) is not "":
-                    return self.set(key, "", 60)
+            if args:
+
+                for key in args:
+
+                    if self.get(key) is not "":
+                        return self.set(key, "", 60)
+            else:
+                for key, v in cook:
+
+                    if self.get(key) is not "":
+                        return self.set(key, "", 60)
+
         else:
             return False

@@ -104,7 +104,12 @@ class App(Router):
 
             controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:]) + 'Controller'
 
+
             controllersMethods = str(self.methodprefix) + str(routesUri[1])
+
+
+
+
 
         else:
 
@@ -112,13 +117,13 @@ class App(Router):
 
             controllersMethods = str(self.methodprefix) + str(self.actions)
 
-        m = self.actions
+        if controllersMethods != "":
+            self.actions = controllersMethods
 
         host = os.path.dirname(os.getcwd())
         DS = str("/")
         controllerpath = host + DS + 'controller'
         controllers = controllerpath + DS + controllersClass + ".py"
-
 
         if os.path.isfile(controllers) == True:
             NewClass = controllers
@@ -177,7 +182,6 @@ class App(Router):
 
     def strClass3(self, p=None, c=None):
         import sys, os, importlib
-        # print(__loader__)
 
         try:
             sys.path.append(p)

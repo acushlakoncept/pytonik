@@ -47,7 +47,7 @@ def upload(fileitem, uploaddir, rename=""):
                 result = open(uploaddir + fname, 'wb')
                 result.write(fileitem.file.read())
                 result.close()
-                return "True"
+                return True
             except Exception as err:
                 log_msg.critical(err)
                 return err

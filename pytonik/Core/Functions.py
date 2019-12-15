@@ -148,11 +148,23 @@ def file_get_contents(self, filename, use_include_path=0, context=None, offset=-
         finally:
             fp.close()
 
+
+def creatdatetime(datetimeString, formate = "%d-%m-%Y"):
+    import datetime
+
+    try:
+        date = str(datetimeString).split(" ")[-1][:4]
+        return datetime.datetime.strptime(date, formate)
+        #return type(datetime.strptime(datetimeString, formate).date())
+        #return datetimeString if datetimeString is "" or datetimeString is None  else datetime.strptime(datetimeString, formate).date()
+    except Exception as err:
+        return err
+
 def datetime(formate = "%Y-%m-%d %H:%M:%S"):
     from datetime import datetime
 
     try:
-        return datetime.now() if formate is "" else  datetime.strftime(datetime.now(), formate)
+        return datetime.now() if formate is "" or formate is None else  datetime.strftime(datetime.now(), formate)
 
     except Exception as err:
         return err

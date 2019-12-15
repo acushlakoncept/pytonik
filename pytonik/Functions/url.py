@@ -14,9 +14,6 @@ class url():
 
         return None
 
-
-
-
     def path(self, path = "", public = ""):
         DS = str('/')
         if path[:1] == "/" or public[:1] == "/":
@@ -45,6 +42,7 @@ class url():
                 DS = "/"
             else:
                 DS = ""
+
         return url + DS + path[1:]
 
 
