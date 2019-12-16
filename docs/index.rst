@@ -1,4 +1,4 @@
-.. include:: ../README.rst
+.. include:: ../index.rst
 
 .. toctree::
    :caption: Theme Documentation
