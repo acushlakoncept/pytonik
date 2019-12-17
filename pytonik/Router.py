@@ -143,23 +143,58 @@ class Router:
                             path_parts.append(path_parts.pop(-1))
                         ++i
 
+
             from .Core import Helpers
             h = Helpers
             list_params = []
+
             if pathparts_paramarray == None or pathparts_paramarray == "" :
-                for s in path_parts:
 
-                    if s is not self.controllers and s is not self.actions and s is not self.languages:
-                        list_params.append(s)
-                        path_parts.append(path_parts.pop(-1))
+                for k, getRouter in routes.items():
 
-                self.params = Helpers.covert_list_dict(list_params)
+                    if self.controllers == k:
+
+                        paraUri = getRouter.split('@')
+                    else:
+                        paraUri = []
+                    if len(paraUri) > 0:
+                        if ':' not in paraUri[1]:
+                            getMapPara = []
+                        else:
+                            getMapPara = paraUri[1].split(':')
+
+
+                        if self.controllers in routes:
+
+                            if len(getMapPara[1:]) > 0:
+
+                                new_para = path_parts[1:]
+
+                                if len(new_para) > 0:
+                                    param_m = []
+                                    for i, para in enumerate(getMapPara[1:]):
+                                        param_n = para
+                                        v_para  = new_para[i]
+                                        list_params.append(param_n)
+                                        list_params.append(v_para)
+
+                                self.params = Helpers.covert_list_dict(list_params)
+
+                else:
+                    for s in path_parts:
+
+                        if s is not self.controllers and s is not self.actions and s is not self.languages:
+
+                            list_params.append(s)
+
+                            path_parts.append(path_parts.pop(-1))
+
+                    self.params = Helpers.covert_list_dict(list_params)
 
             else:
 
                 self.params = pathparts_paramarray
                 path_parts.append(path_parts.pop(-1))
-
 
 
         return None

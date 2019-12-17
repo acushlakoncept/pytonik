@@ -66,7 +66,7 @@ class App(Router):
         # @staticmethod
 
     def runs(self):
-
+        
         env = self.env()
         # self.url = str(uri)
 
@@ -94,20 +94,29 @@ class App(Router):
         langs = Lang.Lang(self.languages)
         langs.loadLang()
 
+        for k, getRouter in self.getrouters.items():
 
-        if newUri in self.getrouters:
-            routesUri = self.getrouters[newUri].split('@')
-        else:
-            routesUri = []
+            if self.controllers == k:
+
+                routesUri = getRouter.split('@')
+            else:
+                routesUri = []
+
+
 
         if len(routesUri) != 0:
+            if 'Controller' in routesUri[0]:
+                controllersClass =  str(routesUri[0]).replace('Controller', '').capitalize()+ 'Controller'
+            else:
+                controllersClass = str(routesUri[0]).capitalize() + 'Controller'
 
-            controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:]) + 'Controller'
+            if ':' not in routesUri[1]:
+                controllersMethods = str(routesUri[1])
 
+            else:
+                getMapPara = routesUri[1].split(':')
 
-            controllersMethods = str(self.methodprefix) + str(routesUri[1])
-
-
+                controllersMethods = str(getMapPara[0])
 
 
 
