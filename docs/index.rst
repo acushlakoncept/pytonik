@@ -33,3 +33,5 @@ What is this?
 ``pytonik`` is a MVC(Model View Controller) framework built to enhance web development, it’s quick to set up. With Pytonik, you build more apps with less code. It runs on multiple operating systems including WINDOWS, MACOS, and LINUX.
 
 See the documentation_ for more information.
+
+.. _documentation: http://pytonik.rtfd.org
