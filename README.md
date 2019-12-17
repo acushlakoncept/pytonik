@@ -17,6 +17,11 @@ Pytonik is a MVC(Model View Controller) framework built to enhance web developme
 ## How to setup
 If you are on a local machine, you will need to install a web server, either WAMP, XAMPP, LAMP or MAMP, depending on your particular environment.
 After installing the server, enable CGI on your **httpd.conf** file as follows:
+
+**Remove:-** Options Indexes FollowSymLinks and **Add:** Options Indexes FollowSymLinks ExecCGI
+
+**Add:-** AddHandler cgi-script .cgi .py
+
 ```
 <Directory "/var/www/cgi-bin">
     AllowOverride None
@@ -24,11 +29,8 @@ After installing the server, enable CGI on your **httpd.conf** file as follows:
     Order allow, deny
     Allow from all
 </Directory>
-
-<Directory "/var/www/cgi-bin">
-    Options All
-</Directory>
 ```
+
 
 ## How to Install
 
