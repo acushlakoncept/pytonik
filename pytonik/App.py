@@ -66,7 +66,7 @@ class App(Router):
         # @staticmethod
 
     def runs(self):
-        
+
         env = self.env()
         # self.url = str(uri)
 
@@ -154,13 +154,23 @@ class App(Router):
         self.Config = Config()
         self.Config.add(env)
         self.dbDriver = self.Config.get('dbConnect')
-        if self.dbDriver["driver"] == "MYSQLi":
-            from .MYSQLiDB import MYSQLiDB
-            self.getDB = MYSQLiDB(self.dbDriver)
+        if self.dbDriver["driver"] == "MYSQL":
+            from .Driver.DB.MYSQL import MYSQL
+            self.getDB = MYSQL(self.dbDriver)
             return self.getDB
-        if self.dbDriver(self.SQLite) == "SQLite":
-            from .SQLite import SQLite
+        if self.dbDriver['driver'] == "SQLite":
+            from .Driver.DB.SQLite import SQLite
             self.getDB = SQLite(self.dbDriver)
+            return self.getDB
+
+        if self.dbDriver['driver'] == "Oracle":
+            from .Driver.DB.Oracle import Oracle
+            self.getDB = Oracle(self.dbDriver)
+            return self.getDB
+
+        if self.dbDriver['driver'] == "pyPgSQL":
+            from .Driver.DB.pyPgSQL import pyPgSQL
+            self.getDB = pyPgSQL(self.dbDriver)
             return self.getDB
 
 
