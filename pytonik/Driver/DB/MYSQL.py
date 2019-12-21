@@ -119,7 +119,7 @@ class MYSQL:
                     self.con.execute(table_description)
                     return True
                 except mysql.connector.Error as err:
-                    if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+                    if err.errno == err.code.ER_TABLE_EXISTS_ERROR:
                         log_msg.info("Database table '{}' already exists.".format(table_name))
                         return "Database table '{}' already exists.".format(table_name)
 
@@ -135,7 +135,7 @@ class MYSQL:
         try:
             cursor.execute("USE {}".format(self.database))
         except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_BAD_DB_ERROR:
+            if err.errno == err.code.ER_BAD_DB_ERROR:
                 cursor.execute(
                     "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(self.database))
                 log_msg.info("Database {} created successfully.".format(self.database))

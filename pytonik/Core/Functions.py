@@ -80,11 +80,6 @@ def pagination(total_pages, page, url):
     if content is not None:
         return content
 
-def strig_tag(raw_html):
-
-    TAG = re.sub('<[^<]+?>', '', raw_html)
-    return TAG
-
 def limit_string(data = "", length = 10, readmore = ""):
     if data is not "":
         info = (data[:int(length)] + str(readmore)) if len(data) > int(length) else data

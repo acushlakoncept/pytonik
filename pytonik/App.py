@@ -327,6 +327,8 @@ class App(Router):
         try:
             with open(html_file_path) as html_file:
                 html = html_file.read()
+			
+			
             print(HTMLeditor.Template(html).render(**context))
         except Exception as err:
             log_msg.error(err)

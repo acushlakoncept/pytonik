@@ -1,8 +1,3 @@
-# Author : BetaCodings
-# Author : info@betacodings.com
-# Maintainer By: Emmanuel Martins
-# Maintainer Email: emmamartinscm@gmail.com
-# Created by BetaCodings on 17/12/2019.
 ###
 # Author : Betacodings
 # Author : info@betacodings.com
@@ -116,7 +111,7 @@ class Oracle:
                     self.con.execute(table_description)
                     return True
                 except Exception as err:
-                    if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+                    if err.errno == err.code.ER_TABLE_EXISTS_ERROR:
                         log_msg.info("Database table '{}' already exists.".format(table_name))
                         return "Database table '{}' already exists.".format(table_name)
 
@@ -131,8 +126,8 @@ class Oracle:
         cursor = cnx.cursor()
         try:
             cursor.execute("USE {}".format(self.database))
-        except Exception as err:
-            if err.errno == errorcode.ER_BAD_DB_ERROR:
+        except cx_Oracle.IntegrityError as err:
+            if err.errno == err.code.ER_BAD_DB_ERROR:
                 cursor.execute(
                     "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(self.database))
                 log_msg.info("Database {} created successfully.".format(self.database))
