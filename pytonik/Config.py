@@ -32,18 +32,13 @@ class Config:
     def set(self, key=None, value=None):
         self.settings = {key : value}
 
-    def get(self, key=None):
+    def get(self, key=None, empty=''):
         try:
             l = ast.literal_eval(self.settings)
 
             if str(key) in l:
-                return l[key]
+                return l.get(key, empty)
             else:
                 return ""
         except Exception as err:
             log_msg.error(err)
-
-
-
-
-

@@ -70,6 +70,9 @@ def ext(filename):
 
 
 class Image():
+
+
+    
     def __init__(self, dir="", items=""):
         self.s = ""
         self.items = items

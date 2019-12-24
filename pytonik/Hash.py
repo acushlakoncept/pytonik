@@ -61,8 +61,3 @@ class Hash:
             return True
         else:
             return False
-
-
-
-
-

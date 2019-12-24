@@ -7,8 +7,8 @@
 ###
 
 
-from . import App, Log
-
+from pytonik import App, Log
+import sys, os, importlib
 log_msg = Log.Log()
 
 
@@ -18,7 +18,7 @@ class Model:
         self.db = self.App.DB()
 
     def load(self, m):
-        import sys, os, importlib
+
         host = os.path.dirname(os.getcwd())
         DS = str("/")
 

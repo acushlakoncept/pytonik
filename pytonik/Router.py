@@ -234,9 +234,11 @@ class Router:
 
         envpath = host + DS + ".env"
         if os.path.isfile(envpath) == True:
-            f = open(envpath, "r")
-            return f.read()
-
+            try:
+                f = open(envpath, "r")
+                return f.read()
+            except Exception as err:
+                    log_msg.error(err)
         else:
+            log_msg.critical(".env file not found")
             return ".env file not found"
-

@@ -6,7 +6,7 @@
 # Created by Betacodings on 2019.
 ###
 
-from . import App
+from pytonik import App
 
 
 class Controllers(App):
@@ -29,18 +29,3 @@ class Controllers(App):
         self.datal = datal
         self.params = self.App.getRouters()
         self.keys = dict()
-        # self.params = self.params
-
-
-
-
-    def request(self, s):
-        datatype = {}
-
-        return datatype[s]
-
-
-    def setkeys(self, m, key):
-        dict = ""
-        for x in key:
-            return x

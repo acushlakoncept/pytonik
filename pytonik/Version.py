@@ -9,7 +9,7 @@
 
 import sys
 
-VERSION = (1, 9, 7, '', 1)
+VERSION = (1, 9, 8, '', 1)
 
 if VERSION[3] and VERSION[4]:
 	VERSION_TEXT = '{0}.{1}.{2}{3}{4}'.format(*VERSION)
@@ -17,10 +17,9 @@ else:
 	VERSION_TEXT = '{0}.{1}.{2}'.format(*VERSION[0:3])
 
 VERSION_EXTRA = ''
-LICENSE = 'Apache 2.0'#MIT
+LICENSE = 'Apache' #MIT
 EDITION = ''  # Added in package names, after the version
-KEYWORDS = "mvc, oop, module"
+KEYWORDS = "mvc, oop, module, python, framework"
 
 PYVERSION_MA = sys.version_info.major
 PYVERSION_MI = sys.version_info.minor
-

@@ -15,20 +15,20 @@ class Log():
         self.logs = logging
         self.__file()
         dt = datetime
-      
+
     def debug(self, string=""):
         return self.logs.debug(string)
 
     def info(self, string=""):
-     
+
         return self.logs.info(string)
 
     def warning(self, string=""):
-   
+
         return self.logs.warning(string)
 
     def error(self, string=""):
-    
+
         return self.logs.error(string)
 
     def critical(self, string=""):

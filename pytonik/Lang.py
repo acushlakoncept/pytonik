@@ -6,8 +6,8 @@
 # Created by Betacodings on 2019.
 ###
 import os
-from . import Log
-from . import Version
+from pytonik import Log
+from pytonik import Version
 import ast
 
 log_msg = Log.Log()
@@ -19,9 +19,8 @@ class Lang:
         self.data = ""
         self.lg = lg
 
-    #@staticmethod
     def loadLang(self):
-        #dir, filen = os.path.split(os.getcwd())
+
         host = os.path.dirname(os.getcwd())
         DS = str("/")
 
@@ -52,6 +51,3 @@ class Lang:
                 return data[k.lower()]
         else:
             return defindValue
-
-
-

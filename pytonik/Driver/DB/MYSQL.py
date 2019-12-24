@@ -16,13 +16,14 @@ except Exception as err:
 
 
 class MYSQL:
-    global connect, con
+
     def __init__(self, setting):
         self.settings = setting
         self.host = setting['host']
         self.database = setting['database']
         self.username = setting['username']
         self.password = setting['password']
+        self.rollback = ""
         self.conn =  None
         self.con = None
         self.result = None
@@ -39,30 +40,37 @@ class MYSQL:
                     database=self.database
             )
 
-
+            self.rollback = "Database '{}' connected successfully.".format(self.database)
         except mysql.connector.Error as err:
             log_msg.error(err)
-            return ("Something went wrong : {err}".format(err=err))
+            self.rollback = "Something went wrong : {err}".format(err=err)
 
 
     def query(self, sql="", value = ""):
-        self.con = self.conn.cursor(dictionary=True)
-        if sql !="" and value != "":
-            self.con.execute(str(sql), value)
-        else:
-            self.con.execute(str(sql))
-            #self.result = self.con.fetchall()
-            #self.fetch()
+        try:
+            self.con = self.conn.cursor(dictionary=True)
+            if sql !="" and value != "":
+                self.con.execute(str(sql), value)
+            else:
+                self.con.execute(str(sql))
+        except Exception as err:
+            log_msg.error(err)
+            self.rollback = err
+              
         return self
 
     def querymultiple(self, sql="", value = ""):
-        self.con = self.conn.cursor(dictionary=True)
-        if sql !="" and value != "":
-            self.con.executemany(str(sql), value)
-        else:
-            self.con.executemany(str(sql))
-            #self.result = self.con.fetchall()
-            #self.fetch()
+        try:
+            self.con = self.conn.cursor(dictionary=True)
+            
+            if sql !="" and value != "":
+                self.con.executemany(str(sql), value)
+            else:
+                self.con.executemany(str(sql))
+        except Exception as err:
+            log_msg.error(err)
+            self.rollback = err
+            
         return self
 
 
@@ -73,10 +81,7 @@ class MYSQL:
         return self.con.lastrowid
 
     def fetch(self):
-        if self.result != "" and self.result is not None:
-            return self.result
-        else:
-            return False
+            return self.con.fetchall()
 
     def queryone(self, sql="", value = ""):
         self.con = self.conn.cursor(buffered=True)
@@ -88,13 +93,13 @@ class MYSQL:
         return self.con
 
     def all(self):
-        self.result = self.con.fetchall()
-        return self.fetch()
+        self.result = self.fetch()
+        return self.result
 
     def one(self):
         return self.con.fetchone()
 
-    def countrow(self):
+    def count(self):
         return self.con.rowcount
 
     def countall(self):
@@ -104,46 +109,25 @@ class MYSQL:
     def save(self):
         try:
             self.conn.commit()
+            
             return True
         except Exception as err:
-            return err
+            self.rollback = err
+            log_msg.error(err)
 
     def close(self):
         return self.con.close()
 
     def create(self, TABLES = ''):
+        self.con = self.conn.cursor()
         if TABLES:
             for table_name in TABLES:
                 table_description = TABLES[table_name]
                 try:
                     self.con.execute(table_description)
-                    return True
                 except mysql.connector.Error as err:
-                    if err.errno == err.code.ER_TABLE_EXISTS_ERROR:
                         log_msg.info("Database table '{}' already exists.".format(table_name))
-                        return "Database table '{}' already exists.".format(table_name)
-
-                    else:
-                        log_msg.error(err)
-                        return err
+                        self.rollback =  "Database table '{}' already exists.".format(table_name)
+            return self          
         else:
-         return False
-
-    def database(self):
-        cnx = mysql.connector.connect(user=self.username)
-        cursor = cnx.cursor()
-        try:
-            cursor.execute("USE {}".format(self.database))
-        except mysql.connector.Error as err:
-            if err.errno == err.code.ER_BAD_DB_ERROR:
-                cursor.execute(
-                    "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(self.database))
-                log_msg.info("Database {} created successfully.".format(self.database))
-            else:
-                log_msg.error(err)
-                return err
-
-        cursor.close()
-        cnx.close()
-
-
+            return False

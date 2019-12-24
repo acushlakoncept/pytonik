@@ -15,13 +15,15 @@ except Exception as err:
 
 
 class Oracle:
-    global connect, con
+
     def __init__(self, setting):
         self.settings = setting
         self.host = setting['host']
         self.database = setting['database']
         self.username = setting['username']
         self.password = setting['password']
+        self.port = setting['port']
+        self.rollback = ""
         self.conn =  None
         self.con = None
         self.result = None
@@ -30,31 +32,39 @@ class Oracle:
     def connectDB(self):
 
         try:
-
-            self.conn = cx_Oracle.connect(self.username, self.password, self.host+'/'+self.database)
-
-        except Exception as err:
+            dsn = cx_Oracle.makedsn(self.host, self.port, service_name=self.database)
+            self.conn = cx_Oracle.connect(self.username, 
+                                          self.password, 
+                                          dsn,
+                                          encoding="UTF-8")
+            self.rollback = "Database '{}' connected successfully.".format(self.database)
+        except cx_Oracle.IntegrityError as err:
             log_msg.error(err)
-            return ("Something went wrong : {err}".format(err=err))
+            self.rollback = "Something went wrong : {err}".format(err=err)
 
     def query(self, sql="", value = ""):
-        self.con = self.conn.cursor(dictionary=True)
-        if sql !="" and value != "":
-            self.con.execute(str(sql), value)
-        else:
-            self.con.execute(str(sql))
-            #self.result = self.con.fetchall()
-            #self.fetch()
+        try:
+            self.con = self.conn.cursor()
+            if sql !="" and value != "":
+                self.con.execute(str(sql), value)
+            else:
+                self.con.execute(str(sql))
+        except Exception as err:
+            log_msg.error(err)
+            self.rollback = err
+            
         return self
 
     def querymultiple(self, sql="", value = ""):
-        self.con = self.conn.cursor(dictionary=True)
-        if sql !="" and value != "":
-            self.con.executemany(str(sql), value)
-        else:
-            self.con.executemany(str(sql))
-            #self.result = self.con.fetchall()
-            #self.fetch()
+        try:
+            self.con = self.conn.cursor()
+            if sql !="" and value != "":
+                self.con.executemany(str(sql), value)
+            else:
+                self.con.executemany(str(sql))
+        except Exception as err:
+            log_msg.error(err)
+            self.rollback = err
         return self
 
 
@@ -65,13 +75,13 @@ class Oracle:
         return self.con.lastrowid
 
     def fetch(self):
-        if self.result != "" and self.result is not None:
-            return self.result
-        else:
-            return False
+        column = [d[0] for d in self.con.description]
+        def row(*args):
+            return dict(zip(column, args))
+        return row
 
     def queryone(self, sql="", value = ""):
-        self.con = self.conn.cursor(buffered=True)
+        self.con = self.conn.cursor()
         if sql !="" and value != "":
             self.con.execute(str(sql), value)
         else:
@@ -80,13 +90,13 @@ class Oracle:
         return self.con
 
     def all(self):
-        self.result = self.con.fetchall()
+        self.result = self.fetch()
         return self.fetch()
 
     def one(self):
         return self.con.fetchone()
 
-    def countrow(self):
+    def count(self):
         return self.con.rowcount
 
     def countall(self):
@@ -98,44 +108,24 @@ class Oracle:
             self.conn.commit()
             return True
         except Exception as err:
-            return err
+            self.rollback = err
+            log_msg.error(err)
 
     def close(self):
         return self.con.close()
 
     def create(self, TABLES = ''):
+        self.con = self.conn.cursor()
         if TABLES:
             for table_name in TABLES:
                 table_description = TABLES[table_name]
                 try:
                     self.con.execute(table_description)
-                    return True
-                except Exception as err:
-                    if err.errno == err.code.ER_TABLE_EXISTS_ERROR:
+                    self.rollback = "Database table '{}' created successfully.".format(table_name)
+                except cx_Oracle.IntegrityError as err:
                         log_msg.info("Database table '{}' already exists.".format(table_name))
-                        return "Database table '{}' already exists.".format(table_name)
-
-                    else:
-                        log_msg.error(err)
-                        return err
+                        return "Database table '{}' already exists.".format(table_name)         
+            return self
         else:
-         return False
-
-    def database(self):
-        cnx = cx_Oracle.connect(user=self.username)
-        cursor = cnx.cursor()
-        try:
-            cursor.execute("USE {}".format(self.database))
-        except cx_Oracle.IntegrityError as err:
-            if err.errno == err.code.ER_BAD_DB_ERROR:
-                cursor.execute(
-                    "CREATE DATABASE {} DEFAULT CHARACTER SET 'utf8'".format(self.database))
-                log_msg.info("Database {} created successfully.".format(self.database))
-            else:
-                log_msg.error(err)
-                return err
-
-        cursor.close()
-        cnx.close()
-
+            return False
 

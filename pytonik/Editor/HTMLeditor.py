@@ -9,7 +9,7 @@
 
 
 import re, operator, ast
-from .. import Log, Version, App
+from pytonik import Log, Version, App
 import os, importlib, sys
 
 log_msg = Log.Log()
@@ -27,9 +27,7 @@ BLOCK_TOKEN_START = '{%'
 BLOCK_TOKEN_END = '%}'
 COMMENT_TOKEN_START = '{#'
 COMMENT_TOKEN_END = '#}'
-FILTER_SEPARATOR = '|'
-FILTER_ARGUMENT_SEPARATOR = ':'
-VARIABLE_ATTRIBUTE_SEPARATOR = '.'
+
 
 TOK_REGEX = (re.compile('(%s.*?%s|%s.*?%s|%s.*?%s)' % (
     re.escape(VAR_TOKEN_START),
@@ -40,7 +38,7 @@ TOK_REGEX = (re.compile('(%s.*?%s|%s.*?%s|%s.*?%s)' % (
     re.escape(COMMENT_TOKEN_END)
 )))
 
-TRANSLATOR_COMMENT_MARK = 'Translators'
+TRANSLATOR_COMMENT_MARK = 'Comment'
 
 WHITESPACE = re.compile('\s+')
 UPPARA = re.compile('\,+')
@@ -211,11 +209,11 @@ class _Each(_ScopableNode):
 
         def render_item(item):
             Ap = App.App()
-            loadm0 = Ap.loadmodule()
-            loadm1 = {'..': context, 'it': item,}
-            loadm0.update(loadm1)
+            load = Ap.loadmodule()
+            load_m = {'..': context, 'it': item,}
+            load.update(load_m)
 
-            return self.render_children(loadm0)
+            return self.render_children(load)
 
 
         return ''.join(map(render_item, items))
@@ -282,7 +280,7 @@ class _Call(_Node):
             self.callable = bits[1]
 
             self.args, self.kwargs = self._parse_params(bits[2:])
-            #print(self.kwargs)
+
 
         except Exception as err:
             raise TemplateSyntaxError(fragment)
@@ -295,14 +293,13 @@ class _Call(_Node):
                 kwargs[name] = eval_expression(value)
             else:
                 args.append(eval_expression(param))
-                #args.append(param)
+
 
         return args, kwargs
 
     def render(self, context):
 
-        ob_dir = os.path.dirname(__file__).replace('Editor', '') + str("Functions")
-        ob_dir1 = os.path.dirname(os.getcwd()) + str("/") + "model"
+        ob_dir = [os.path.dirname(__file__).replace('Editor', '') + str("Functions"), os.path.dirname(os.getcwd()) + str("/") + "model"]
 
         resolved_args, resolved_kwargs = [], {}
         for kind, value in self.args:
@@ -326,18 +323,19 @@ class _Call(_Node):
         resolved_callable = resolve(self.callable, context)
 
 
-        pathx = ob_dir + "/" + str(self.callable) + ".py" #os.path.isfile(ob_dir + "/" + str(resolved_callable) + ".py")
-        pathx1 = ob_dir1 + "/" + str(self.callable) + ".py" #os.path.isfile(ob_dir1 + "/" + str(resolved_callable) + ".py")
+        path = [ob_dir[0] + "/" + str(self.callable) + ".py",  ob_dir[1] + "/" + str(self.callable) + ".py"]
 
 
-        sys.path.append(ob_dir)
+        sys.path.append(ob_dir[0])
+        sys.path.append(ob_dir[1])
+
 
 
 
         importlib._RELOADING
 
 
-        if os.path.isfile(pathx) == True:
+        if os.path.isfile(path[0]) == True:
 
 
             md = importlib.import_module(self.callable, self.callable)
@@ -352,7 +350,7 @@ class _Call(_Node):
                  return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)
-        elif os.path.isfile(pathx1) == True:
+        elif os.path.isfile(path[1]) == True:
 
 
             md = importlib.import_module(resolved_callable, resolved_callable)
@@ -369,9 +367,6 @@ class _Call(_Node):
 
         else:
             raise TemplateError("'%s' module not found " % self.callable)
-
-
-
 
 
 
@@ -454,4 +449,3 @@ class Template(object):
 
     def render(self, **kwargs):
         return self.root.render(kwargs)
-
