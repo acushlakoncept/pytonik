@@ -22,7 +22,8 @@ class SQLite:
         self.path = setting['path']
         self.name = setting['name']
         self.bdfile = str(host) + D + str(self.path)+ D +str(self.name)
-        self.rollback = ""
+        self.prefix = setting['prefix']
+        self.Exception = ""
         self.success = ""
         self.conn = None
         self.con = None
@@ -34,10 +35,10 @@ class SQLite:
 
         try:
             self.conn = sqlite3.connect(self.bdfile)
-            self.rollback = "Database '{}' connected successfully.".format(self.name)
+         
         except Exception as err:
             log_msg.error(err)
-            self.rollback = "Something went wrong : {err}".format(err=err)
+            self.Exception = "Something went wrong : {err}".format(err=err)
 
 
     def query(self, sql="", value = ""):
@@ -49,7 +50,7 @@ class SQLite:
                 self.con.execute(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.rollback = err        
+            self.Exception = err        
         return self
 
     def querymultiple(self, sql="", value = ""):
@@ -61,7 +62,7 @@ class SQLite:
                 self.con.executemany(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.rollback = err   
+            self.Exception = err   
         return self
 
 
@@ -114,8 +115,9 @@ class SQLite:
             self.conn.commit()
             return True
         except Exception as err:
-            self.rollback = err
+            self.Exception = err
             log_msg.error(err)
+            return self
 
     def close(self):
         return self.con.close()
@@ -128,11 +130,11 @@ class SQLite:
                 table_description = TABLES[table_name]
                 try:
                     self.con.execute(table_description)
-                    self.rollback = "Database table '{}' created successfully.".format(table_name)
+                    self.Exception = "Database table '{}' created successfully.".format(table_name)
                 except Exception as err:
                 
                     log_msg.info("Database table '{}' already exists.".format(table_name))
-                    self.rollback =  "Database table '{}' already exists.".format(table_name)
+                    self.Exception =  "Database table '{}' already exists.".format(table_name)
             
             return self
         

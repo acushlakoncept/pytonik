@@ -23,7 +23,8 @@ class MYSQL:
         self.database = setting['database']
         self.username = setting['username']
         self.password = setting['password']
-        self.rollback = ""
+        self.prefix = setting['prefix']
+        self.Exception = ""
         self.conn =  None
         self.con = None
         self.result = None
@@ -39,11 +40,9 @@ class MYSQL:
                     passwd=self.password,
                     database=self.database
             )
-
-            self.rollback = "Database '{}' connected successfully.".format(self.database)
         except mysql.connector.Error as err:
             log_msg.error(err)
-            self.rollback = "Something went wrong : {err}".format(err=err)
+            self.Exception = "Something went wrong : {err}".format(err=err)
 
 
     def query(self, sql="", value = ""):
@@ -55,7 +54,7 @@ class MYSQL:
                 self.con.execute(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.rollback = err
+            self.Exception = err
               
         return self
 
@@ -69,7 +68,7 @@ class MYSQL:
                 self.con.executemany(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.rollback = err
+            self.Exception = err
             
         return self
 
@@ -109,11 +108,11 @@ class MYSQL:
     def save(self):
         try:
             self.conn.commit()
-            
             return True
         except Exception as err:
-            self.rollback = err
+            self.Exception = err
             log_msg.error(err)
+            return self
 
     def close(self):
         return self.con.close()
@@ -127,7 +126,7 @@ class MYSQL:
                     self.con.execute(table_description)
                 except mysql.connector.Error as err:
                         log_msg.info("Database table '{}' already exists.".format(table_name))
-                        self.rollback =  "Database table '{}' already exists.".format(table_name)
+                        self.Exception =  "Database table '{}' already exists.".format(table_name)
             return self          
         else:
             return False

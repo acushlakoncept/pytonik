@@ -24,7 +24,8 @@ class pyPgSQL:
         self.password = setting['password']
         self.port = setting['port']
         self.host = setting['host']
-        self.rollback = ""
+        self.prefix = setting['prefix']
+        self.Exception = ""
         self.conn =  None
         self.con = None
         self.result = None
@@ -35,9 +36,9 @@ class pyPgSQL:
         try:
        
             self.conn = psycopg2.connect(database=self.database, host = self.host,  port = self.port, user=self.username, password=self.password)
-            self.rollback = "Database '{}' connected successfully.".format(self.database)
+       
         except (Exception, psycopg2.Error) as err:
-            self.rollback = err
+            self.Exception = err
             log_msg.error("Something went wrong : {err}".format(err=err))
             
 
@@ -53,7 +54,7 @@ class pyPgSQL:
                 self.con.execute(str(sql))
                 
         except (Exception, psycopg2.Error) as err:
-            self.rollback = err
+            self.Exception = err
             log_msg.error(err)
         return self
         
@@ -68,7 +69,7 @@ class pyPgSQL:
             else:
                 self.con.executemany(str(sql))
         except (Exception, psycopg2.Error) as err:
-            self.rollback = err
+            self.Exception = err
             log_msg.error(err)
             
     
@@ -118,8 +119,9 @@ class pyPgSQL:
         
             return True
         except Exception as err:
-            self.rollback = err
+            self.Exception = err
             log_msg.error(err)
+            return self
 
     def close(self):
         return self.con.close()
@@ -131,9 +133,9 @@ class pyPgSQL:
                 table_description = TABLES[table_name]
                 try:
                     self.con.execute(table_description)
-                    self.rollback = "Database table '{}' created successfully.".format(table_name)
+                    self.Exception = "Database table '{}' created successfully.".format(table_name)
                 except (Exception, psycopg2.DatabaseError) as err :
-                    self.rollback = "Database table '{}' already exists.".format(table_name)
+                    self.Exception = "Database table '{}' already exists.".format(table_name)
                     log_msg.error("Database table '{}' already exists.".format(table_name))
                 
             return self

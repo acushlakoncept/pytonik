@@ -22,8 +22,9 @@ class Oracle:
         self.database = setting['database']
         self.username = setting['username']
         self.password = setting['password']
+        self.prefix = setting['prefix']
         self.port = setting['port']
-        self.rollback = ""
+        self.Exception = ""
         self.conn =  None
         self.con = None
         self.result = None
@@ -37,10 +38,10 @@ class Oracle:
                                           self.password, 
                                           dsn,
                                           encoding="UTF-8")
-            self.rollback = "Database '{}' connected successfully.".format(self.database)
+          
         except cx_Oracle.IntegrityError as err:
             log_msg.error(err)
-            self.rollback = "Something went wrong : {err}".format(err=err)
+            self.Exception = "Something went wrong : {err}".format(err=err)
 
     def query(self, sql="", value = ""):
         try:
@@ -51,7 +52,7 @@ class Oracle:
                 self.con.execute(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.rollback = err
+            self.Exception = err
             
         return self
 
@@ -64,7 +65,7 @@ class Oracle:
                 self.con.executemany(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.rollback = err
+            self.Exception = err
         return self
 
 
@@ -108,8 +109,9 @@ class Oracle:
             self.conn.commit()
             return True
         except Exception as err:
-            self.rollback = err
+            self.Exception = err
             log_msg.error(err)
+            return self
 
     def close(self):
         return self.con.close()
@@ -121,7 +123,7 @@ class Oracle:
                 table_description = TABLES[table_name]
                 try:
                     self.con.execute(table_description)
-                    self.rollback = "Database table '{}' created successfully.".format(table_name)
+                    self.Exception = "Database table '{}' created successfully.".format(table_name)
                 except cx_Oracle.IntegrityError as err:
                         log_msg.info("Database table '{}' already exists.".format(table_name))
                         return "Database table '{}' already exists.".format(table_name)         
