@@ -149,8 +149,11 @@ class Router:
             list_params = []
 
             if pathparts_paramarray == None or pathparts_paramarray == "" :
-
-                for k, getRouter in routes.items():
+                if Version.PYVERSION_MA <= 2:
+                    lroutes = routes.iteritems()
+                else:
+                    lroutes = routes.items()
+                for k, getRouter in lroutes:
 
                     if self.controllers == k:
 

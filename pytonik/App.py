@@ -202,23 +202,28 @@ class App(Router):
     def DB(self):
 
         self.dbDriver = self.envrin('dbConnect')
-        if self.dbDriver["driver"] == "MYSQL":
-            from pytonik.Driver.DB.MYSQL import MYSQL
+        if self.dbDriver.get("driver", '') == "MYSQL":
+            from pytonik.Driver.DB.MYSQL.MYSQL import MYSQL
             self.getDB = MYSQL(self.dbDriver)
+            self.Driver = "MYSQL"
             return self.getDB
-        if self.dbDriver['driver'] == "SQLite":
-            from pytonik.Driver.DB.SQLite import SQLite
+        
+        if self.dbDriver.get("driver", '') == "SQLite":
+            from pytonik.Driver.DB.SQLite.SQLite import SQLite
             self.getDB = SQLite(self.dbDriver)
+            self.Driver = "SQLite"
             return self.getDB
 
-        if self.dbDriver['driver'] == "Oracle":
-            from pytonik.Driver.DB.Oracle import Oracle
+        if self.dbDriver.get("driver", '') == "Oracle":
+            from pytonik.Driver.DB.Oracle.Oracle import Oracle
             self.getDB = Oracle(self.dbDriver)
+            self.Driver = "Oracle"
             return self.getDB
 
-        if self.dbDriver['driver'] == "pyPgSQL":
-            from pytonik.Driver.DB.pyPgSQL import pyPgSQL
+        if self.dbDriver.get("driver", '') == "pyPgSQL":
+            from pytonik.Driver.DB.pyPgSQL.pyPgSQL import pyPgSQL
             self.getDB = pyPgSQL(self.dbDriver)
+            self.Driver = "pyPgSQL"
             return self.getDB
 
 
@@ -229,13 +234,23 @@ class App(Router):
             ms = str(self.actions)
             md = importlib.import_module(c)
             ob = self.strMethod(md, ms)
-            ob()
         except Exception as err:
             log_msg.error(err)
             self.errorP('400')
+        else:
+            try:
+                Request = self.Request()
+                ob(Request)
+            except Exception as err:
+                try:
+                    ob()
+                except Exception as err:
+                    log_msg.error(err)
+                    self.errorP('400')
+            
 
 
-    def strMethod(self, c=None, m=None):
+    def strMethod(self, c=None, m=None): 
         return getattr(c, m)
 
     def strClass3(self, p=None, c=None):
@@ -246,16 +261,22 @@ class App(Router):
             importlib._RELOADING
             md = importlib.import_module(c, ms)
             ob = self.strMethod(md, ms)
-            ob()
+            
         except Exception as err:
-
             log_msg.error(err)
-
             self.errorP('400')
-
-
-
-
+        else:
+            try:
+                Request = self.Request()
+                ob(Request)
+            except Exception as err:
+                try:
+                    ob()
+                except Exception as err:
+                    log_msg.error(err)
+                    self.errorP('400')
+            
+            
 
     def redirect(self, location='/'):
         print("Location: {location}".format(location=location))

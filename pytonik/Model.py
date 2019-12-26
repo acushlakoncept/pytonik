@@ -8,11 +8,13 @@
 
 
 from pytonik import App, Log
+from pytonik.Driver.Schema import Schema
 import sys, os, importlib
 log_msg = Log.Log()
 
 
-class Model:
+class Model(Schema):
+    
     def __init__(self):
         self.App = App.App()
         self.db = self.App.DB()
@@ -44,3 +46,5 @@ class Model:
         else:
             print("Model {e} does not exist ".format(m))
             log_msg.error("Model {e} does not exist ".format(m))
+
+    

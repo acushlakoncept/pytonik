@@ -1,4 +1,17 @@
-from pytonik  import App
+###
+# Author : Betacodings
+# Author : info@betacodings.com
+# Maintainer By: Emmanuel Martins
+# Maintainer Email: emmamartinscm@gmail.com
+# Created by Betacodings on 2019.
+#############################################
+#############################################
+# Support Table Artisan Conducts Database querys
+# Using Schema Pattern to controller callable funtions and methods
+# Each method represent query builder attribute
+
+    
+from pytonik  import App, Version, Log
 
 app = App.App()
 
@@ -8,6 +21,7 @@ class Table:
         self.DB = app.DB()
         self.prefix = self.DB.prefix 
         self.table = str(self.prefix)+str(table)
+        self.tabledict = table
         self.result = None
         self.rowCount = None
         self.table_select = ""
@@ -30,20 +44,22 @@ class Table:
         self.table_count   = ""
         self.table_distinct   = ""
         self.table_avg   = ""
-
+        self.error = ""
         return None
    
     def drop(self):
         self.table_drop = "DROP TABLE {exists} {table}".format(table = self.table, exists='IF '+ str(self.table_exist) if self.table_exist is not "" else "")
         t_result = self.DB.query(self.table_drop)
-        return self if t_result.Exception == "" else t_result.Exception
+        t_result.save()
+        self.error = t_result.Exception
+        return self 
     
-    def exists(self, rawquery):
+    def exists(self, rawquery=""):
         rawString = "WHERE EXISTS ({rawquery})".format(rawquery=rawquery) if rawquery is not "" else "EXISTS"
         self.table_exist =  "{rawquery}".format(rawquery = rawString)
         return self
     
-    def notExist(self, rawquery):
+    def notExist(self, rawquery=""):
         rawString =  "WHERE NOT EXISTS ({rawquery})".format(rawquery=rawquery) if rawquery is not "" else "NOT EXISTS"
         self.table_notexist =  "{rawquery}".format(rawquery = rawString)
         return self
@@ -66,7 +82,8 @@ class Table:
             orderBy = self.table_orderby, limit = self.table_limit)
         
         t_result = self.DB.query(self.table_select)
-        return self if t_result.Exception == "" else t_result.Exception
+        self.error = t_result.Exception
+        return self
     
     def max(self, column):
         self.table_max = ", MAX({column})".format(column=column)
@@ -155,7 +172,11 @@ class Table:
                 rg = get.result
                 for l in rg:
                     rf = {}
-                    for k, v in l.items():
+                    if Version.PYVERSION_MA <= 2:
+                        lt = l.iteritems()
+                    else:
+                        lt = l.items()
+                    for k, v in lt:
                         lk = l[k]
                         if lk == num:
                             r=l
@@ -163,51 +184,81 @@ class Table:
                 r = ""
         else:
             r = t_result.Exception
+            
         return r
         
     def update(self, data=[]):
-        if len(data) > 0:
-            value = []
-            column = []
-            for l in data:
-                value.append(l) 
-                for k, v in l.items(): 
-                    column.append( '{k}="{v}"'.format(k=k, v=v))
-                    
-            lcolumn = ' , '.join(set(column))
-            
-            table_update ="UPDATE {table} SET {column} {where}".format(table=str(self.prefix)+str(self.table),  column=lcolumn, where=self.table_where)
-            t_result = self.DB.query(table_update)
-            return t_result.save() if t_result.Exception == "" else t_result.Exception
+        if (type(data) == list):
+            if len(data) > 0:
+                value = []
+                column = []
+                for l in data:
+                    value.append(l) 
+                    if Version.PYVERSION_MA <= 2:
+                        lt = l.iteritems()
+                    else:
+                        lt = l.items()
+                    for k, v in lt: 
+                        if k not in column:
+                            column.append( '{k}="{v}"'.format(k=k, v=v))
+                        
+                lcolumn = ' , '.join(column)
+                
+                table_update ="UPDATE {table} SET {column} {where}".format(table=str(self.prefix)+str(self.table),  column=lcolumn, where=self.table_where)
+                t_result = self.DB.query(table_update)
+                return t_result.save() if t_result.Exception == "" else t_result.Exception
+            else:
+                return "Empty Data"
         else:
-            return "Empty Data"
+            return "Only Accepts type list"
         
         
     def insert(self, data=[]):
-     
-        if len(data) > 0:
-            ksys = []
-            value = []
-            column = []
-            for l in data:
-                value.append(l) 
-                for k, v in l.items(): 
-                    column.append(k)
-                    ksys.append('%({ks})s'.format(ks = k))
-                      
-         
-            lcolumn = ' , '.join(set(column))
-            kvariables = ' , '.join(set(ksys))
-            
-            table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(table=str(self.prefix)+str(self.table), column=lcolumn, kvariables=kvariables)
-            if len(value) == 1:
-                t_result = self.DB.query(insert, value[0])
+        if (type(data) == list):
+            if len(data) > 0:
+                ksys = []
+                value = []
+                val = []
+                column = []
+
+                for l in data:
+                    value.append(l) 
+                    if Version.PYVERSION_MA <= 2:
+                        lt = l.iteritems()
+                    else:
+                        lt = l.items()
+                    for k, v in lt: 
+                        
+                        if k not in column:
+                            column.append(k)
+                            ksys.append('?')    
+                    val.append(tuple(l.values()))
+                          
+                lcolumn = ' , '.join(column)
+                kvariables = ' ,'.join(ksys)
+ 
+                
+               
+                table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(table=str(self.prefix)+str(self.table), column=lcolumn, kvariables=kvariables)
+                
+                if len(value) == 1:
+                    t_result = self.DB.query(table_insert , val[0])
+                else:
+                    t_result = self.DB.querymultiple(table_insert, val)
+                return t_result.save() if t_result.Exception == "" else t_result.Exception
             else:
-                t_result = self.DB.querymultiple(insert, value)
+                return "Empty Data"
+        else:
+            return "Only Accepts type list"
+    
+    def create(self):
+        if type(self.tabledict) == dict:
+            for table_name in self.tabledict:
+                table_description = self.tabledict[table_name]
+                t_result = self.DB.query(table_description)
             return t_result.save() if t_result.Exception == "" else t_result.Exception
         else:
-            return "Empty Data"
-    
+            return "Accepts type dictionary"
     
     def raw(self, rawstring):
         return rawstring

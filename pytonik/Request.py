@@ -9,15 +9,17 @@
 
 
 import cgi, re, os
-from . import App, Router, Log
+from . import Router, Log
 log_msg = Log.Log()
 
 class Request:
+ 
     def __init__(self):
         self.attr = cgi.FieldStorage()
         self.type = os.environ
         self.Router = Router.Router()
         self.method = self.type.get('REQUEST_METHOD', '')
+
 
     def get(self, key=0, error=0):
         try:
