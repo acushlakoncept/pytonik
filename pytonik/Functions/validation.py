@@ -1,20 +1,18 @@
-import re
+import re, os
 
 class validation:
 
 	def __getattr__(self, item):
 		return item
 
-	def __init__(self, var_string, **kwargs):
-		self.varstring = var_string
-		self.msg_error = ""
-		self.msg_success = ""
-
+	def __init__(self):
+		return None
 	
-	def length(self, min='', max=''):
-		len_count = len(self.varstring)
+	def length(self, varstring, min, max=''):
+
+		len_count = len(varstring)
 		if min is not '' and max is not '':
-			if int(min) >= len_count and int(min) <= len_count:
+			if len_count >= int(min) and  len_count <= int(max):
 				return True
 			else:
 				return False
@@ -24,22 +22,20 @@ class validation:
 			else:
 				return False
 
+	def count(self, varstring):
 
-	def count(self):
-		return len(self.varstring)
+		return len(varstring)
 
+	def email(self, varstring):
 
-	def email(self):
 		regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
-
-		if re.search(regex, self.varstring) is False:
-			self.msg_error = "Invalid email Address"
+		if re.search(regex, varstring):
+			return True
 		else:
-			self.msg_success = "Valid email Address"
+			return False 
+			
+	def url(self, varstring):
 
-		return re.search(regex, self.varstring)
-	
-	def url(self):
 		regex = re.compile(
 			r'^(?:http|ftp)s?://'  # http:// or https://
 			r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
@@ -48,96 +44,63 @@ class validation:
 			r'(?::\d+)?'  # optional port
 			r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
-		if regex.match(self.varstring) is False:
-			self.msg_error = "Invalid URL link"
+		if regex.match(varstring):
+			return True
 		else:
-			self.msg_success = "Valid URL link"
-
-		return re.match(regex, self.varstring)
-
-	
-	def ip(self):
-		regex = '''^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(
-
-		            25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(
-
-		            25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(
-
-		            25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)'''
-		if re.match(regex, self.varstring) is False:
-			self.msg_error = "invalid IP address"
-		else:
-			self.msg_success = "Valid IP address"
-		return regex.match(self.varstring)
-
-		return re.search(regex, self.varstring)
+			return False
 		
-	def single(self):
-		regex = re.compile(r'^[a-zA-Z]+[a-zA-Z]+$',
-
-						   re.IGNORECASE)
-		if regex.search(self.varstring) is False:
-			self.msg_error = "Invalid string"
+	def ip(self, varstring):
+     
+		regex = '''^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)'''
+		if re.match(regex, varstring):
+			return True
 		else:
-			self.msg_success = "Valid String"
+			return False
+		
+  
+	def single(self, varstring):
+     
+		regex = re.compile(r'^[a-zA-Z]+[a-zA-Z]+$', re.IGNORECASE)
+		if regex.search(varstring):
+			return True
+		else:
+			return False
 
-		return regex.search(self.varstring)
-
-
-	
-	def phone(self):
+	def phone(self, varstring):
+     
 		regex = re.compile(r'([+]?\d{1,4}[.\-\s]?)?(\d{3}[.-]?){2}\d{4}$')
-		if regex.match(self.varstring) is False:
-			self.msg_error = "Invalid Phone Number"
+		if regex.match(varstring):
+
+			return True
 		else:
-			self.msg_success = "Valid"
-		return regex.match(self.varstring)
-
-
-
-
-	def number(self):
+			return False
+ 
+	def number(self, varstring):
+     
 		regex = re.compile(r'(\d+)')
-
-		if regex.match(self.varstring) is False:
-			self.msg_error = "Invalid Number"
+		if regex.match(varstring):
+			return True
 		else:
-			self.msg_success = "Valid Number"
-		return regex.search(self.varstring)
+			return False
 
-
-
-
-	def fullname(self):
+	def fullname(self, varstring):
+     
 		regex = re.compile(r'(^[a-zA-Z\- ]+)$', re.IGNORECASE)
-		if regex.search(self.varstring) is False:
-			self.msg_error = "Invalid Full name"
+		if regex.search(varstring):
+			return True
 		else:
-			self.msg_success = "Valid Full name"
-		return regex.search(self.varstring)
+			return False
 
 
+	def trim(self, varstring):
 
+		regex = re.sub('<[^<]+?>', '', varstring)
 
-	def trim(self):
-		regex = re.sub('<[^<]+?>', '', self.varstring)
 		return regex
 
-
-
-
-	def error(self, m_string, bool = False):
-		msg = {
-			'msg': str(m_string),
-			'bool': bool(bool),
-		}
-		return msg.get(msg, self.msg_error)
-
-
-	
-	def success(self, m_string, bool = True):
-		msg = {
-			'msg': str(m_string),
-			'bool': bool(bool),
-		}
-		return msg.get(msg, self.msg_success)
+	def extension(self, varstring, exe_list):
+		string_text = os.path.splitext(varstring)[1][1:]
+		if string_text in exe_list: 
+			return True
+		else:
+			return False

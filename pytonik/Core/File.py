@@ -55,14 +55,16 @@ def upload(fileitem, uploaddir, rename=""):
         else:
             return ""
     else:
-        return "Directory Does not Exist"
+        log_msg.error("Directory {uploaddir} Does not Exist".format(uploaddir=uploaddir))
+        return "Directory {uploaddir} Does not Exist".format(uploaddir=uploaddir)
+
 
 def delete(directory, file):
     if os.path.isfile(str(directory)+str(file)):
         return os.remove(str(directory)+str(file))
     else:
-        log_msg.error("The file does not exist")
-        return ("The file does not exist")
+        log_msg.error("The file {file} does not exist ".format(file=file))
+        return "The file {file} does not exist ".format(file=file)
 
 def ext(filename):
     fn = os.path.splitext(filename)[1][1:]
@@ -98,18 +100,13 @@ class Image():
         return size
 
     def resize(self, width, height, rename=str("")):
-        imgcreator = []
+
         if rename == "":
             fname = os.path.basename(self.items.filename)
         else:
             fname = str(rename) + os.path.basename(self.items.filename)
         try:
             self.blob()
-            #w, h = self.dimension()
-            #ratio = max(width / w, height / h)
-            #h = math.ceil(height / ratio)
-            #x = int(w - width / ratio) / 2
-            #w = math.ceil(width / ratio)
             self.w = width
             self.h = height
             self.ext = ext(self.filename)
@@ -294,7 +291,6 @@ class Image():
         for k in type_to_content_type:
             if self.ext.lower() in k:
                 decode = base64.b64decode(self.blobbase)
-                #self.App.header(0, type_to_content_type[self.ext.lower()])
                 try:
                     img = IMG.open(io.BytesIO(decode))
                     resizedIMG = img.resize((self.w, self.h), IMG.ANTIALIAS)

@@ -14,7 +14,6 @@ from pytonik.Config import Config
 from pytonik.Log import Log
 from pytonik import Lang
 from pytonik import Version
-from pytonik.Core.Helpers import Helpers
 from pytonik.Functions import url
 import os, sys, cgi, cgitb, importlib, glob, inspect
 
@@ -233,25 +232,22 @@ class App(Router):
             sys.path.append(p)
             ms = str(self.actions)
             md = importlib.import_module(c)
-            ob = self.strMethod(md, ms)
+            self.strMethod(md, ms)
+            
         except Exception as err:
             log_msg.error(err)
             self.errorP('400')
-        else:
-            try:
-                Request = self.Request()
-                ob(Request)
-            except Exception as err:
-                try:
-                    ob()
-                except Exception as err:
-                    log_msg.error(err)
-                    self.errorP('400')
+        
+           
             
 
 
-    def strMethod(self, c=None, m=None): 
-        return getattr(c, m)
+    def strMethod(self, c=None, m=None):
+        Request = self.Request()
+        try:
+            return getattr(c, m)(Request)
+        except:
+            return getattr(c, m)()
 
     def strClass3(self, p=None, c=None):
 
@@ -260,21 +256,12 @@ class App(Router):
             ms = str(self.actions)
             importlib._RELOADING
             md = importlib.import_module(c, ms)
-            ob = self.strMethod(md, ms)
+            self.strMethod(md, ms)
             
         except Exception as err:
             log_msg.error(err)
             self.errorP('400')
-        else:
-            try:
-                Request = self.Request()
-                ob(Request)
-            except Exception as err:
-                try:
-                    ob()
-                except Exception as err:
-                    log_msg.error(err)
-                    self.errorP('400')
+        
             
             
 
@@ -335,9 +322,9 @@ class App(Router):
 
         if router == "":
             print("")
-        controllerDirectory = Routers.getControllers()
+        controllerDirectory = self.Router.getControllers()
 
-        templateName = str(Routers.getMethodPrefix()) + str(Routers.getAction()) + '.html'
+        templateName = str(self.Router.getMethodPrefix()) + str(self.Router.getAction()) + '.html'
 
         return templateName
 
