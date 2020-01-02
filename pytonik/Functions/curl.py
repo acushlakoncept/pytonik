@@ -111,9 +111,11 @@ class curl:
 
             if self.method == self.GET or self.method == self.HEAD:
                 if 's' in self.http:
-                    self.conn = htp.HTTPSConnection(host=self.link)
+                    self.conn = htp.HTTPSConnection(host=self.link, port=self.pt, timeout=self.tout,
+                                                   source_address=self.source_address, blocksize=self.blocksize)
                 else:
-                    self.conn = htp.HTTPConnection(host=self.link)
+                    self.conn = htp.HTTPConnection(host=self.link, port=self.pt, timeout=self.tout,
+                                                   source_address=self.source_address, blocksize=self.blocksize)
             else:
                 if 's' in self.http:
                     self.conn = htp.HTTPSConnection(host=self.link, port=self.pt, timeout=self.tout,
@@ -127,7 +129,6 @@ class curl:
             self.response()
             self.conn.close()
         except Exception as err:
-            print(err)
             log_msg.error(err)
 
 
@@ -135,12 +136,11 @@ class curl:
 
 
     def __url(self, url=""):
-        if "https://" in url:
-            self.http = "https://"
-        else:
-            self.http = "http://"
-
-        self.link = url.replace(self.http, "")
+        lh = ['ftps://', 'ftp://', "https://", "http://"]
+        for ht in lh:
+            if ht in url:
+                self.http = ht
+                self.link = url.replace(ht, "")
         return self
 
     def __body(self, body=""):
