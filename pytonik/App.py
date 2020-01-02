@@ -246,7 +246,7 @@ class App(Router):
         Request = self.Request()
         try:
             return getattr(c, m)(Request)
-        except:
+        except Exception as err:
             return getattr(c, m)()
 
     def strClass3(self, p=None, c=None):
