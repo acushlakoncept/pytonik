@@ -2,17 +2,14 @@
 # Author : info@betacodings.com
 # Maintainer By: Emmanuel Martins
 # Maintainer Email: emmamartinscm@gmail.com
-# Created by BetaCodings on 08/11/2019.
-
+# Created by BetaCodings on 05/01/2020.
 from pytonik.Editor import HTMLeditor
 from pytonik.Log import Log
 from pytonik.App import App
 import os
 log_msg = Log()
 
-
-class include(App):
-
+class extend(App):
 
     def __getattr__(self, item):
 
@@ -32,7 +29,7 @@ class include(App):
         return self.ex
 
 
-    def include(self, path=""):
+    def include(self, path = ""):
 
         host = os.path.dirname(os.getcwd())
         DS = str("/")
@@ -74,6 +71,7 @@ class include(App):
         except Exception as err:
                 log_msg.error(err)
                 return  err
+
 
 
     def read_html(self, template_dir, engine, context=[]):

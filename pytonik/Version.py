@@ -17,7 +17,7 @@ else:
 	VERSION_TEXT = '{0}.{1}.{2}'.format(*VERSION[0:3])
 
 VERSION_EXTRA = ''
-LICENSE = 'Apache' #MIT
+LICENSE = 'MIT' #MIT
 EDITION = ''  # Added in package names, after the version
 KEYWORDS = "mvc, oop, module, python, framework"
 

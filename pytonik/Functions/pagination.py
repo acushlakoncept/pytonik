@@ -4,7 +4,7 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 26/11/2019.
 
-class pagination:
+class pagination():
 
     def __getattr__(self, item):
         return item

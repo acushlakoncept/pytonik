@@ -87,7 +87,7 @@ class Router:
 
 
 
-            routes = Conf.get('route')
+            routes = Conf.get('route', '')
 
             if list(set(path_parts).intersection(routes.keys())):
 
@@ -104,7 +104,7 @@ class Router:
                         #path_parts.append(path_parts.pop(-1))
 
 
-            languages = Conf.get('languages')
+            languages = Conf.get('languages', '')
 
 
             if list(set(path_parts).intersection(languages.keys())):
@@ -115,7 +115,7 @@ class Router:
                         path_parts.append(path_parts.pop(-1))
 
 
-            controllers = Conf.get('default_controllers')
+            controllers = Conf.get('default_controllers', '')
             if controllers:
 
                 i = 0
@@ -132,7 +132,7 @@ class Router:
                     ++i
 
 
-            action = Conf.get('default_actions')
+            action = Conf.get('default_actions', '')
             if action:
                 i = 0
                 for s in path_parts:

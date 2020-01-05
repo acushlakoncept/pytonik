@@ -344,9 +344,13 @@ class _Call(_Node):
 
 
             if hasattr(ob(), '__call__'):
-                 _cal = ob()
-                 _new_cal = getattr(_cal, *resolved_args)
-                 calls =  _new_cal(**resolved_kwargs)
+                 try:
+                     _cal = ob()
+                     _new_cal = getattr(_cal, *resolved_args)
+                     calls =  _new_cal(**resolved_kwargs)
+                 except Exception as err:
+                     calls = ob(*resolved_args, **resolved_kwargs)
+
                  return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)
@@ -357,10 +361,12 @@ class _Call(_Node):
             ob = getattr(md, resolved_callable)
 
             if hasattr(ob(), '__call__'):
-                _cal = ob()
-                _new_cal = getattr(_cal, *resolved_args)
-                calls = _new_cal(**resolved_kwargs)
-
+                try:
+                    _cal = ob()
+                    _new_cal = getattr(_cal, *resolved_args)
+                    calls = _new_cal(**resolved_kwargs)
+                except Exception as err:
+                    calls = ob(*resolved_args, **resolved_kwargs)
                 return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)

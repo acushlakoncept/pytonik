@@ -44,6 +44,14 @@ def Functions():
     from .Core import Functions
     return Functions
 
+def Validation():
+    from pytonik.Functions.validation import validation
+    return validation
+
+def curl():
+    from pytonik.Functions.curl import curl
+    return curl
+
 def File():
     from .Core import File
 

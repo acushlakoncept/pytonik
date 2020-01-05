@@ -59,6 +59,7 @@ class App(Router):
         self.key = ""
         self.vpathf = ""
         self.languages = ""
+        self.Driver = ""
 
     def getRouters(self):
 
@@ -80,12 +81,6 @@ class App(Router):
         self.params = self.routersc.getParams()
 
 
-
-        seperator = str("/")
-
-
-        newUri = str(self.controllers) + seperator + str(self.actions)
-
         langs = Lang.Lang(self.languages)
         langs.loadLang()
         routesUri = []
@@ -93,9 +88,10 @@ class App(Router):
             
             if self.controllers == k:
                 routesUri = getRouter.split('@')
-            
-            
+
+
         if len(routesUri) != 0:
+
             
             if 'controller' in routesUri[0].lower():
                 
@@ -117,13 +113,12 @@ class App(Router):
 
             controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:]) + 'Controller'
 
-            controllersMethods = str(self.methodprefix) + str(self.actions)
+            controllersMethods = str(self.actions)
+
 
         if controllersMethods != "":
             self.actions = controllersMethods
 
-        host = os.path.dirname(os.getcwd())
-        DS = str("/")
 
         controllers = controllerpath + DS + controllersClass + ".py"
         
@@ -397,4 +392,3 @@ class App(Router):
                 result[key] = value
 
         return result
-   

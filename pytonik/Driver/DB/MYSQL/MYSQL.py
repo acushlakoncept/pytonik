@@ -7,7 +7,7 @@
 #############################################
 #############################################
 # MYSQL Support Database Connection
-# Using Raw query from mysql.connector module
+# Using Raw query from mysql-connector module
 # Each method represent extensions from mysql version 2.2.9
 
 
@@ -47,7 +47,8 @@ class MYSQL:
                     host=self.host,
                     user=self.username,
                     passwd=self.password,
-                    database=self.database
+                    database=self.database,
+                    port = self.port
             )
         except mysql.connector.Error as err:
             log_msg.error(err)

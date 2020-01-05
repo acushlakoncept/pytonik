@@ -6,18 +6,21 @@
 # Created by Betacodings on 2019.
 ###
 
-
-from pytonik import App, Log
+from pytonik.App import App
+from pytonik import Log
 from pytonik.Driver.Schema import Schema
 import sys, os, importlib
 log_msg = Log.Log()
 
 
+
 class Model(Schema):
     
     def __init__(self):
-        self.App = App.App()
-        self.db = self.App.DB()
+        ap = App()
+        self.db = ap.DB()
+
+
 
     def load(self, m):
 

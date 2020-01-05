@@ -6,35 +6,36 @@
 
 from pytonik.App import App
 
-app = App()
 
-class Schema:
+
+class Schema(App):
 
     def __getattr__(self, item):
-        
+
         return item
-    
+
+
     def __init__(self):
-        app.DB()
-        self.driver = app.Driver
+
         return None
     
     def table(self, table):
-        
-        if self.driver == "MYSQL":
+        self.DB()
+        drive = self.Driver
+        if drive == "MYSQL":
             from pytonik.Driver.DB.MYSQL.Table import  Table
             return Table(table)
         
-        if self.driver == "Oracle":
+        if drive == "Oracle":
             from pytonik.Driver.DB.Oracle.Table import  Table
             return Table(table)
         
-        if self.driver == "pyPgSQL":
+        if drive == "pyPgSQL":
             from pytonik.Driver.DB.pyPgSQL.Table import  Table
             return Table(table)
     
           
-        if self.driver == "SQLite":
+        if drive == "SQLite":
             from pytonik.Driver.DB.SQLite.Table import  Table
             return Table(table)
     

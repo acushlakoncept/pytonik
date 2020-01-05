@@ -65,7 +65,7 @@ class Session:
 
 
 
-    def destory(self, *args):
+    def destroy(self, *args):
         if Version.PYVERSION_MA >= 3:
             cooKeys = cookies.SimpleCookie(os.environ.get('HTTP_COOKIE'))
             cook = cooKeys.items()

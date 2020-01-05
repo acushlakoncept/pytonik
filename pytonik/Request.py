@@ -8,7 +8,7 @@
 
 
 
-import cgi, re, os
+import cgi, os
 from . import Router, Log
 log_msg = Log.Log()
 
@@ -98,9 +98,4 @@ class Request:
         except Exception as err:
             log_msg.info(err)
 
-    def strig_tag(self, value=""):
-        if value != "":
 
-            return re.sub('<[^<]+?>', '', value)
-        else:
-            return ""

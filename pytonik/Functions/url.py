@@ -6,7 +6,8 @@
 import os
 
 
-class url():
+class url:
+
     def __getattr__(self, item):
         return item
 
