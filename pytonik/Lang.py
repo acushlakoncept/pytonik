@@ -19,6 +19,7 @@ class Lang:
         self.data = ""
         self.lg = lg
 
+
     def loadLang(self):
 
         host = os.path.dirname(os.getcwd())

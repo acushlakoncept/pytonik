@@ -22,9 +22,8 @@ class include(App):
 
         return None
 
-    def __init__(self, *args):
-        for k in args:
-            self.ex = self.include(k)
+    def __init__(self, *args,  **kwargs):
+        self.ex = self.include(*args,  **kwargs)
         return None
 
     def __str__(self):
@@ -58,14 +57,15 @@ class include(App):
 
             if os.path.isdir(direct) == True:
 
+                if 'views.html' not in template_dir + ".html":
 
-                if os.path.isfile(template_dir+".html") == True:
+                    if os.path.isfile(template_dir + ".html") == True:
 
-                    loadm0 = self.loadmodule()
-                    return self.read_html(direct, engine, loadm0)
-                else:
-                  log_msg.error("The File '{filepath}' does not exists.".format(filepath=template_dir+".html"))
-                  return "The File '{filepath}' does not exists.".format(filepath=template_dir+".html" )
+                        loadm0 = self.loadmodule()
+                        return self.read_html(direct, engine, loadm0)
+                    else:
+                        log_msg.error("The File '{filepath}' does not exists.".format(filepath=template_dir + ".html"))
+                        return "The File '{filepath}' does not exists.".format(filepath=template_dir + ".html")
 
             else:
               log_msg.error("The Folder '{filepath}' does not exists.".format(filepath=direct))

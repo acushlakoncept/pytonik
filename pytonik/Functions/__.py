@@ -31,3 +31,6 @@ class __():
 
 
 
+    def default(self):
+
+        return self.langs.lg

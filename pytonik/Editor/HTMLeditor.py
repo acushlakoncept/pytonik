@@ -96,6 +96,7 @@ def eval_expression(expr):
 
 
 def resolve(name, context):
+
     if name.startswith('..'):
         context = context.get('..', {})
         name = name[2:]
@@ -192,6 +193,7 @@ class _Variable(_Node):
         self.name = fragment
 
     def render(self, context):
+
         return resolve(self.name, context)
 
 
@@ -276,10 +278,12 @@ class _Call(_Node):
 
         try:
             #bits = WHITESPACE.
-            bits = WHITESPACE.split(fragment)
-            self.callable = bits[1]
+            self.bits = WHITESPACE.split(fragment)
+            self.callable = self.bits[1]
+            self.fragment = fragment
 
-            self.args, self.kwargs = self._parse_params(bits[2:])
+            self.args, self.kwargs = self._parse_params(self.bits[2:])
+
 
 
         except Exception as err:
@@ -291,7 +295,8 @@ class _Call(_Node):
             if '=' in param:
                 name, value = param.split('=')
                 kwargs[name] = eval_expression(value)
-            else:
+            else :
+
                 args.append(eval_expression(param))
 
 
@@ -302,10 +307,20 @@ class _Call(_Node):
         ob_dir = [os.path.dirname(__file__).replace('Editor', '') + str("Functions"), os.path.dirname(os.getcwd()) + str("/") + "model"]
 
         resolved_args, resolved_kwargs = [], {}
-        for kind, value in self.args:
-            if kind == 'name':
-                value = resolve(value, context)
+
+
+        if len(self.args) < 3:
+            for kind, value in self.args:
+
+                if kind == 'name':
+
+                    value = value
+
+                resolved_args.append(value)
+        else:
+            value = str(self.fragment.replace(self.callable, '', ))[4:][1:][1:][1:][0:-1]
             resolved_args.append(value)
+
 
 
         if Version.PYVERSION_MA >= 2:
@@ -315,12 +330,10 @@ class _Call(_Node):
 
         for key, (kind, value) in items:
             if kind == 'name':
-                value = resolve(value, context)
+                value = value
             resolved_kwargs[key] = value
 
 
-
-        resolved_callable = resolve(self.callable, context)
 
 
         path = [ob_dir[0] + "/" + str(self.callable) + ".py",  ob_dir[1] + "/" + str(self.callable) + ".py"]
@@ -328,6 +341,7 @@ class _Call(_Node):
 
         sys.path.append(ob_dir[0])
         sys.path.append(ob_dir[1])
+
 
 
 
@@ -340,7 +354,7 @@ class _Call(_Node):
 
             md = importlib.import_module(self.callable, self.callable)
 
-            ob = getattr(md, resolved_callable)
+            ob = getattr(md, self.callable)
 
 
             if hasattr(ob(), '__call__'):
@@ -356,9 +370,8 @@ class _Call(_Node):
                 raise TemplateError("'%s' is not a callable" % self.callable)
         elif os.path.isfile(path[1]) == True:
 
-
-            md = importlib.import_module(resolved_callable, resolved_callable)
-            ob = getattr(md, resolved_callable)
+            md = importlib.import_module(self.callable, self.callable)
+            ob = getattr(md, self.callable)
 
             if hasattr(ob(), '__call__'):
                 try:
@@ -382,6 +395,7 @@ class _Text(_Node):
         self.text = fragment
 
     def render(self, context):
+
         return self.text
 
 
