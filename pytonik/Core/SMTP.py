@@ -10,7 +10,11 @@
 import smtplib, string, random
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from .. import Router, Config, Log
+from email.mime.base import MIMEBase
+from email import encoders
+import os
+
+from pytonik import Router, Config, Log
 log_msg = Log.Log()
 
 
@@ -25,14 +29,15 @@ class SMTP():
 
         Conf.add(self.envSMTP)
         setting = Conf.get('SMTP')
-        self.server = setting['server']
-        self.port = setting['port']
-        self.username = setting['username']
-        self.password = setting['password']
+        self.server = setting.get('server', '')
+        self.port = setting.get('port', '')
+        self.username = setting.get('username', '')
+        self.password = setting.get('password', '')
 
         self.con = None
         self.result = None
         self.response = None
+        self.attachfile = None
         self.connect()
         return None
 
@@ -49,15 +54,18 @@ class SMTP():
         return self.response.quit()
 
 
-    def send(self, from_send, to_recipient, message_subject= "", messege_content = ""):
-
+    def send(self, from_send, to_recipient, message_subject= "", messege_content = "", header="html"):
+        print(self.response)
         try:
             body = messege_content
             msg = MIMEMultipart()
             msg['From'] = from_send
             msg['To'] = to_recipient
             msg['Subject'] = message_subject
-            msg.attach(MIMEText(body, 'html'))
+            msg.attach(MIMEText(body, header))
+            if self.attachfile is not None:
+                msg.attach(self.attachfile)
+
             context = msg.as_string()
             self.response.sendmail(from_send, to_recipient, context)
             self.close()
@@ -66,3 +74,32 @@ class SMTP():
             log_msg.error(err)
             return err
 
+    def attached(self, atfile = "", rename=""):
+        if atfile is not "":
+            try:
+                ext = os.path.splitext(atfile)[1][1:]
+                filename = atfile if rename is "" else str(rename) + '.' + str(ext)
+                attach_file = open(atfile, 'rb')
+                attach_load = MIMEBase('application', 'octet-stream')
+                attach_load.set_payload(attach_file.read())
+                encoders.encode_base64(attach_load)
+                attach_load.add_header('Content-Disposition', 'attachment', filename=filename)
+                self.attachfile = attach_load
+
+            except Exception as err:
+                try:
+                    ext =  os.path.splitext(atfile.filename)[1][1:]
+                    filename = atfile.filename if rename is "" else str(rename)+'.'+str(ext)
+                    attach_load = MIMEBase('application', 'octet-stream')
+                    read_attach_file = (atfile.file).read()
+                    attach_load.set_payload(read_attach_file)
+                    encoders.encode_base64(attach_load)
+                    attach_load.add_header('Content-Disposition', 'attachment',  filename=filename)
+
+                    self.attachfile = attach_load
+
+                except Exception as err:
+
+                    log_msg.error(err)
+
+        return self
