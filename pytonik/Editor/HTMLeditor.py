@@ -40,7 +40,7 @@ TOK_REGEX = (re.compile('(%s.*?%s|%s.*?%s|%s.*?%s)' % (
 
 TRANSLATOR_COMMENT_MARK = 'Comment'
 
-WHITESPACE = re.compile('\s+')
+WHITESPACE = re.compile("[\s]")
 UPPARA = re.compile('\,+')
 
 operator_lookup_table = {
@@ -91,7 +91,6 @@ def eval_expression(expr):
     try:
         return 'literal', ast.literal_eval(expr)
     except Exception as err:
-
         return 'name', expr
 
 
@@ -104,10 +103,13 @@ def resolve(name, context):
 
 
         for tok in name.split('.'):
+
             context = context[tok]
+
         return context
 
     except Exception as err:
+
         # name
         raise TemplateContextError(err)
 
@@ -149,6 +151,7 @@ class _Node(object):
 
     def __init__(self, fragment=None):
         self.children = []
+
         self.process_fragment(fragment)
 
     def process_fragment(self, fragment):
@@ -159,12 +162,14 @@ class _Node(object):
         pass
 
     def render(self, context):
+
         pass
 
     def exit_scope(self):
         pass
 
     def render_children(self, context, children=None):
+
 
         if children is None:
             children = self.children
@@ -198,11 +203,17 @@ class _Variable(_Node):
 
 
 class _Each(_ScopableNode):
+
     def process_fragment(self, fragment):
+
         try:
+
+
             _, it = WHITESPACE.split(fragment, 1)
             self.it = eval_expression(it)
+
         except Exception as err:
+
             raise TemplateSyntaxError(fragment)
 
     def render(self, context):
@@ -212,11 +223,12 @@ class _Each(_ScopableNode):
         def render_item(item):
             Ap = App.App()
             load = Ap.loadmodule()
-            load_m = {'..': context, 'it': item,}
+
+            load_m = {'..': context, 'it': item}
+
             load.update(load_m)
 
             return self.render_children(load)
-
 
         return ''.join(map(render_item, items))
 
@@ -272,6 +284,21 @@ class _Else(_Node):
         pass
 
 
+def dict_local(it, resolves):
+
+    for i, k in enumerate(resolves):
+        if k in resolves:
+            l = str(it).replace(k, resolves[k])
+        return dict_local_next(l, resolves)
+
+def dict_local_next(it, resolves):
+
+    for i, k in enumerate(resolves):
+
+        if k in it:
+           l = str(it).replace(k, resolves[k])
+           return l
+
 class _Call(_Node):
 
     def process_fragment(self, fragment):
@@ -290,37 +317,63 @@ class _Call(_Node):
             raise TemplateSyntaxError(fragment)
 
     def _parse_params(self, params):
-        args, kwargs = [], {}
-        for param in params:
-            if '=' in param:
-                name, value = param.split('=')
-                kwargs[name] = eval_expression(value)
-            else :
+        new_args, args, kwargs = [], [], {}
 
-                args.append(eval_expression(param))
+        for param in params:
+
+            if len(params) > 3:
+
+                p = str(params).translate({ord(i): None for i in '"'})
+
+                if '=' in p:
+
+                    new_name = str(p).translate({ord(i): None for i in '"\',\[]'})
+                    sln = new_name.split(" ")
+
+                    for n in sln:
+
+                        if '=' in n:
+
+                            k, v = str(n).split("=")
+
+                            kwargs[k] = eval_expression(str(v))
+                        else:
+
+                            new_n = str(n).translate({ord(i): None for i in '[]'})
+                            new_args.append(new_n)
+
+
+                    args.append(eval_expression(" ".join(new_args)))
+
+                else:
+
+                    args.append(eval_expression(p))
+                break
+
+            else:
+                if '=' in param:
+                    name, value = param.split('=')
+
+                    kwargs[name] = eval_expression(str(value))
+                else:
+                    args.append(eval_expression(param))
 
 
         return args, kwargs
 
     def render(self, context):
-
+        self.contxt = context
         ob_dir = [os.path.dirname(__file__).replace('Editor', '') + str("Functions"), os.path.dirname(os.getcwd()) + str("/") + "model"]
 
         resolved_args, resolved_kwargs = [], {}
 
 
-        if len(self.args) < 3:
-            for kind, value in self.args:
+        for kind, value in self.args:
 
-                if kind == 'name':
-
-                    value = value
-
-                resolved_args.append(value)
-        else:
-            value = str(self.fragment.replace(self.callable, '', ))[4:][1:][1:][1:][0:-1]
+            if kind == 'name':
+                value = value
+            value = self._call_each(str(value))
             resolved_args.append(value)
-
 
 
         if Version.PYVERSION_MA >= 2:
@@ -329,10 +382,12 @@ class _Call(_Node):
             items = self.kwargs.iteritems()
 
         for key, (kind, value) in items:
-            if kind == 'name':
-                value = value
-            resolved_kwargs[key] = value
 
+            if kind == 'name':
+
+                value = value
+            value = self._call_each(str(value))
+            resolved_kwargs[key] = value
 
 
 
@@ -358,28 +413,40 @@ class _Call(_Node):
 
 
             if hasattr(ob(), '__call__'):
+                 calls = ""
                  try:
                      _cal = ob()
                      _new_cal = getattr(_cal, *resolved_args)
                      calls =  _new_cal(**resolved_kwargs)
                  except Exception as err:
-                     calls = ob(*resolved_args, **resolved_kwargs)
+
+                     try:
+                        calls = ob(*resolved_args, **resolved_kwargs)
+                     except Exception as err:
+                         log_msg.error(err)
 
                  return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)
+
         elif os.path.isfile(path[1]) == True:
 
             md = importlib.import_module(self.callable, self.callable)
             ob = getattr(md, self.callable)
 
+
             if hasattr(ob(), '__call__'):
+                calls = ""
                 try:
                     _cal = ob()
                     _new_cal = getattr(_cal, *resolved_args)
                     calls = _new_cal(**resolved_kwargs)
                 except Exception as err:
-                    calls = ob(*resolved_args, **resolved_kwargs)
+                    try:
+                        calls = ob(*resolved_args, **resolved_kwargs)
+                    except Exception as err:
+                        log_msg.error(err)
+
                 return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)
@@ -387,6 +454,69 @@ class _Call(_Node):
         else:
             raise TemplateError("'%s' module not found " % self.callable)
 
+    def _call_each(self, context):
+
+        if  VAR_TOKEN_START in context:
+            self.it = str(context).translate({ord(i): None for i in '{VAR_TOKEN_START}{VAR_TOKEN_END}'.format(VAR_TOKEN_START = '{{', VAR_TOKEN_END = '}}')})
+            contsplit = self.it.split('/')
+
+            if len(contsplit) < 2:
+
+                for k, itc in enumerate(contsplit):
+
+                    if 'it.' in itc:
+
+                        ite = resolve(itc, self.contxt)
+                        item = str(self.it).replace(itc, ite)
+                        return item
+                    if '..' in itc:
+
+                        ite = resolve(itc, self.contxt)
+                        item = str(self.it).replace(itc, ite)
+                        return item
+
+            elif len(contsplit) > 1:
+
+                dic_ls = {}
+                for s in contsplit:
+                    if 'it.'.lower() in s:
+                        dic_ls.update({s:resolve(s, self.contxt)})
+                    if '..'.lower() in s:
+                        dic_ls.update({s: resolve(s, self.contxt)})
+
+
+                return dict_local(self.it,dic_ls)
+
+
+            else:
+
+                if 'it.' in self.it:
+                    ite = resolve(self.it, self.contxt)
+                    item = str(self.it).replace(self.it, ite)
+                elif '..' in self.it:
+
+                    ite = resolve(self.it, self.contxt)
+                    item = str(self.it).replace(self.it, ite)
+
+                return item
+
+
+
+        elif '..' in context:
+
+            for it in context.split('/'):
+                if '..' in it:
+                    ite = resolve(it, self.contxt)
+
+                else:
+                    ite = resolve(it, self.contxt)
+
+                item = str(context).replace(it, ite)
+                return item
+
+        else:
+
+            return context
 
 
 
@@ -457,14 +587,17 @@ class Compiler(object):
                 node_class = _Else
             elif cmd == 'call':
                 node_class = _Call
+
         if node_class is None:
             raise TemplateSyntaxError(fragment)
+
         return node_class(fragment.clean)
 
 
 class Template(object):
     def __init__(self, contents):
         self.contents = contents
+
         self.root = Compiler(contents).compile()
 
     def render(self, **kwargs):

@@ -12,11 +12,18 @@ class __():
     def __getattr__(self, item):
         return item
 
+    def __call__(self, *args, **kwargs):
+
+        return None
 
     def __init__(self, *args, **kwargs):
         self.langs = Lang(Router().getLanguages())
         self.langs.loadLang()
-        self.lg = self.lang(*args, **kwargs)
+        if len(args) or len(kwargs):
+            if all(args) is not False:
+                self.lg = self.lang(*args, **kwargs)
+            else:
+                self.lg = self.lang(**kwargs)
         return None
 
     def __str__(self):

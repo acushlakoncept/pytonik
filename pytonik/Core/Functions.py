@@ -90,7 +90,7 @@ def datetime(formate = "%Y-%m-%d %H:%M:%S"):
     from datetime import datetime
 
     try:
-        return datetime.now() if formate is "" or formate is None else  datetime.strftime(datetime.now(), formate)
+        return datetime.strftime(datetime.now(), formate)
 
     except Exception as err:
         return err

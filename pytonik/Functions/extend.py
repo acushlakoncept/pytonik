@@ -20,8 +20,11 @@ class extend(App):
         return None
 
     def __init__(self, *args,  **kwargs):
-
-        self.ex = self.include(*args,  **kwargs)
+        if len(args) > 0 or len(kwargs) > 0:
+            if all(args) is not False:
+                self.ex = self.include(*args,  **kwargs)
+            else:
+                self.ex = self.include(**kwargs)
         return None
 
     def __str__(self):

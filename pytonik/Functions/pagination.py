@@ -12,7 +12,7 @@ class pagination():
         return None
 
     @staticmethod
-    def number(total = 0, page = 0, url='/', cl=[]):
+    def number(total = 0, page = 0, url='/', cl=['', '', '']):
 	
 	
         content = '<ul class="{cl}">'.format(cl=cl[0])
@@ -42,20 +42,18 @@ class pagination():
                                                                                                            c=str(c), cl=cl[1], cl1=cl[2])
 
                     elif (page == c):
-                        content += '<li  class="{cl} active"><a class="{cl1}" href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url,
-                                                                                                                 c=str(
-                                                                                                                     c), cl=cl[1], cl1=cl[2])
+
+                        content += '<li  class="{cl} active"><a class="{cl1}" href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url, c=str(c), cl=cl[1], cl1=cl[2])
 
 
                     elif (page == total):
+
                         content += '<li  class="{cl} active"><a class="{cl1}" href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url,
-                                                                                                                 c=str(
-                                                                                                                     c), cl=cl[1], cl1=cl[2])
+                                                                                                                 c=str(c), cl=cl[1], cl1=cl[2])
 
                     else:
-                        content += '<li  class="{cl} active"><a class="{cl1}" href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url,
-                                                                                                                 c=str(
-                                                                                                                     c), cl=cl[1], cl1=cl[2])
+                        content += '<li  class="{cl}"><a class="{cl1}" href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url,
+                                                                                                                 c=str(c), cl=cl[1], cl1=cl[2])
 
             else:
 
@@ -63,14 +61,12 @@ class pagination():
                     if (c == 1):
 
                         content += '<li  class="{cl} active"><a  class="{cl1}" href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url,
-                                                                                                                 c=str(
-                                                                                                                     c),  cl=cl[1])
+                                                                                                                 c=str(c),  cl=cl[1], cl1=cl[2])
 
 
                     else:
 
-                        content += '<li  class="{cl}"><a class="{cl1} href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url,
-                                                                                                           c=str(c), cl=cl[1])
+                        content += '<li  class="{cl}"><a class="{cl1} href="{url}/{c}" title="Page{c}">{c}</a></li>'.format(url=url,c=str(c), cl=cl[1], cl1=cl[2])
 
             if (page < total):
                 next_link = int(page) + 1
@@ -88,7 +84,7 @@ class pagination():
 
 
     @staticmethod
-    def alphabet(total = 0, page = '', url='/', cl=[]):
+    def alphabet(total = 0, page = '', url='/', cl=['', '', '']):
             
         alphabet_list = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
             
@@ -108,7 +104,7 @@ class pagination():
             return ""
     
     @staticmethod
-    def next_previous(total = 0, page = 0, url='/', cl=[]):
+    def next_previous(total = 0, page = 0, url='/', cl=['', '', '']):
 
          content = '<ul class="{cl}">'.format(cl=cl[0])
 

@@ -8,12 +8,29 @@ import datetime
 
 class timeago:
 
-    def __init__(self, date_time, format=""):
-        self.date_time = date_time
-        self.fmt = self.format(format)
-        self.ago = self.ago()
+    def __getattr__(self, item):
+        return item
 
-    def ago(self):
+    def __init__(self, *args, **kwargs):
+        self.fmt = ""
+        self.date_time = ""
+        if len(args) > 0 or len(kwargs) > 0:
+
+            if all(args) is not False:
+                self.ag_o = self.ago(*args, **kwargs)
+            else:
+                self.ag_o = self.ago(**kwargs)
+        return None
+
+    def __str__(self):
+        return self.ag_o
+
+
+    def ago(self, date_time="", format=""):
+
+        self.date_time = date_time
+
+        self.fmt = self.format(format)
         delta = self.delta()
         if delta.find(',') > 0:
             days, hours = delta.split(',')
@@ -45,8 +62,11 @@ class timeago:
         return ', '.join(datelets) + ' ago.'
 
 
+
+
     def delta(self):
         current_datetime = datetime.datetime.now()
+
         try:
             return str(current_datetime - self.fmt)
         except Exception as err:
@@ -54,6 +74,7 @@ class timeago:
 
 
     def format(self, fmt=''):
+
         fmt = '%Y-%m-%d %H:%M:%S' if fmt is "" else  fmt
         try:
             return datetime.datetime.strptime(self.date_time, fmt)

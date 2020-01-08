@@ -11,9 +11,16 @@ class url:
     def __getattr__(self, item):
         return item
 
-    def __init__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs):
 
-        self.ul = self.url(*args, **kwargs)
+        return None
+
+    def __init__(self, *args, **kwargs):
+        if len(args) > 0 or len(kwargs) > 0:
+            if all(args) is not False:
+                self.ul = self.url(*args, **kwargs)
+            else:
+                self.ul = self.url(*args, **kwargs)
         return None
 
     def __str__(self):

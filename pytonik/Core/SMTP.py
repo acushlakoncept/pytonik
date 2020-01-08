@@ -55,7 +55,6 @@ class SMTP():
 
 
     def send(self, from_send, to_recipient, message_subject= "", messege_content = "", header="html"):
-        print(self.response)
         try:
             body = messege_content
             msg = MIMEMultipart()

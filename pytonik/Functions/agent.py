@@ -10,6 +10,9 @@ class os:
     def __getattr__(self, item):
         return item
 
+    def __call__(self, *args, **kwargs):
+        return None
+
     def __init__(self):
         if "" is not opy.environ.get('HTTP_USER_AGENT'):
             self.agent = opy.environ.get('HTTP_USER_AGENT')
@@ -87,6 +90,10 @@ class browser:
 
     def __getattr__(self, item):
         return item
+
+    def __call__(self, *args, **kwargs):
+
+        return None
 
     def __init__(self):
         if "" is not opy.environ.get('HTTP_USER_AGENT'):

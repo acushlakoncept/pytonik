@@ -44,6 +44,10 @@ def Functions():
     from .Core import Functions
     return Functions
 
+def Pagination():
+    from pytonik.Functions.pagination import pagination
+    return pagination
+
 def Validation():
     from pytonik.Functions.validation import validation
     return validation

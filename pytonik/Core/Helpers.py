@@ -8,7 +8,7 @@
 
 
 
-import importlib, os, sys
+import importlib, os, sys, re
 from ..Editor import HTMLeditor
 from .. import Log
 log_msg = Log.Log()
@@ -110,3 +110,12 @@ if "mvc_dir" not in dir(os):
         dir = host + DS + newpath + DS
         return dir
 
+
+if "key_tag" not in dir(os):
+    def key_tag(tag, url="/", css=""):
+
+        pattern = re.compile("\s*,\s*|\s+$")
+
+        split_tag = [x for x in pattern.split(tag) if x]
+        for keyword in split_tag:
+            return '<li><a href="{url}" class="{css}">{keyword}</a></li>'.format(css = css, keyword = str(keyword))

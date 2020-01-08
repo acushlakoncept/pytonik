@@ -5,6 +5,7 @@ class validation:
 	def __getattr__(self, item):
 		return item
 
+
 	def __init__(self):
 		return None
 	
