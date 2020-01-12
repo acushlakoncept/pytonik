@@ -13,16 +13,16 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
-import sphinx_rtd_theme
+#import sphinx_rtd_theme
 
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
 
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+#html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # -- Project information -----------------------------------------------------
 
 project = 'Pytonik'
-copyright = '2020, Beta Codings'
+copyright = '2020, Pytonik'
 author = 'Beta Codings'
 
 # The full version, including alpha/beta/rc tags
