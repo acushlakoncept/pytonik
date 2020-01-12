@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>pytonik - web framework MVC &#8212; Pytonik 1.9.9 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting-started.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="pytonik-web-framework-mvc">
+<h1>pytonik - web framework <code class="docutils literal notranslate"><span class="pre">MVC</span></code><a class="headerlink" href="#pytonik-web-framework-mvc" title="Permalink to this headline">¶</a></h1>
+<p>This document refers to version 1.9.9</p>
+</div>
+<div class="section" id="pytonik">
+<h1>Pytonik<a class="headerlink" href="#pytonik" title="Permalink to this headline">¶</a></h1>
+<p>Pytonik is a python framework built to enhance web development fast and easy, also help web developers
+to build more apps with less codes. it uses expressive architectural pattern,
+structured on model view controller MVC  and bundles of component to reuse while deploying the framework.</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started.html#pytonik">Pytonik</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installations.html">Installations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#local-server">Local Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#cloud-server">Cloud Server</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filestructure.html">File Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="env.html">Environment File</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="env.html#route">route</a></li>
+<li class="toctree-l2"><a class="reference internal" href="env.html#dbconnect">dbConnect</a></li>
+<li class="toctree-l2"><a class="reference internal" href="env.html#languages">Languages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="env.html#smtp">SMTP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="env.html#error">error</a></li>
+<li class="toctree-l2"><a class="reference internal" href="env.html#default">Default</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="temp.html">Template Engine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="temp.html#variables">Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="temp.html#loops">Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="temp.html#conditionals">Conditionals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="temp.html#callable">Callable</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="request.html">Request</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file.html">File</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="file.html#image">IMAGE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="valid.html">Validations</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">Pytonik</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installations.html">Installations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filestructure.html">File Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="env.html">Environment File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temp.html">Template Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request.html">Request</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="valid.html">Validations</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="getting-started.html" title="next chapter">Getting Started</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Beta Codings.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

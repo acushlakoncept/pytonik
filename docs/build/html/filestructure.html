@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>File Structure &#8212; Pytonik 1.9.9 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Environment File" href="env.html" />
+    <link rel="prev" title="Dependency" href="dependency.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="file-structure">
+<h1>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Pytonik</span></code> is a web framework that supports model view controller MVC, web development are made easier and
+faster using the file structure below, it gives full access to <code class="docutils literal notranslate"><span class="pre">controller</span></code>, <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">languages</span></code>, <code class="docutils literal notranslate"><span class="pre">public</span></code>,  <code class="docutils literal notranslate"><span class="pre">views</span></code> , <code class="docutils literal notranslate"><span class="pre">environment</span></code>.
+Create folder in your web directory as follows:-  ‘Link to download on github &lt;<a class="reference external" href="https://github.com/pytonik/Folder-Structure">https://github.com/pytonik/Folder-Structure</a>&gt;’</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>|─MyPytonikApp                            (application folder)
+    |─ controller
+        |─ IndexController.py
+    |─ lang
+        |─ en.py
+    |─ model
+        |─ Mymodel.py
+    |─ public
+        |─ Index.py
+        |─ assets
+        |─ uploads
+        |- .htaccess
+    |─ views
+        |─ 404.html
+        |─ homepage.html
+    |- index.py
+    |- .env
+    |- .htaccess
+</pre></div>
+</div>
+<p><strong>Htacess:</strong></p>
+<p>It’s a configuration file that support pytonik application to run on Apache Server,
+this file is configured to set index and redirects application Uniform Resource Locator(URL) to public folder.</p>
+<p><strong>Controller:</strong></p>
+<p>It handles direct regulation of activities within the application, all component,
+functions and interfacing depends on it.</p>
+<p><strong>Lang:</strong></p>
+<p>It handles internationalization translation of word or sentence within the application
+and structured it conventionally.</p>
+<p><strong>Model:</strong></p>
+<p>It handles structuring each piece of function in the application, components and can be used by the controller or
+called directly in view files</p>
+<p><strong>Public:</strong></p>
+<p>It handles asset files such as CSS, JS, images, uploads and access are set to audience</p>
+<p><strong>Views:</strong></p>
+<p>The result display sent from controller where the end user can see.</p>
+<p><strong>Note:-</strong> app.log file will be automatically created once pytonik is identified by the application project,
+the file keeps track of errors and other useful information for bugs fixings.</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Pytonik</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installations.html">Installations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">File Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="env.html">Environment File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temp.html">Template Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request.html">Request</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="valid.html">Validations</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="dependency.html" title="previous chapter">Dependency</a></li>
+      <li>Next: <a href="env.html" title="next chapter">Environment File</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Beta Codings.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/filestructure.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
