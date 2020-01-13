@@ -96,10 +96,11 @@
 <li class="toctree-l1"><a class="reference internal" href="filestructure.html">File Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="env.html">Environment File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="temp.html">Template Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smtp.html">SMTP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="request.html">Request</a></li>
 <li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
 <li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
-<li class="toctree-l1"><a class="reference internal" href="valid.html">Validations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="func.html">Functions</a></li>
 </ul>
 
             
@@ -175,15 +176,17 @@ if you are not using any of the listed local servers don’t worry, this process
 both older and newer version, Although you might notice little difference between versions.</p>
 <p><strong>Apache</strong></p>
 <p>Locate httpd.conf in your local server open it with a text or code editor.</p>
-<p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi``add</span> <span class="pre">.py</span>&#160; <span class="pre">``AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
-<p>Find <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">None``change</span> <span class="pre">to</span> <span class="pre">``Options</span> <span class="pre">ExecCGI</span> <span class="pre">``</span>
-<span class="pre">or</span> <span class="pre">find</span> <span class="pre">``Options</span> <span class="pre">+Indexes``change</span> <span class="pre">to</span> <span class="pre">``Options</span> <span class="pre">ExecCGI</span> <span class="pre">``</span>
-<span class="pre">or</span> <span class="pre">change</span> <span class="pre">to</span>&#160; <span class="pre">``Options</span> <span class="pre">+Indexes</span> <span class="pre">FollowSymLinks</span> <span class="pre">+ExecCGI</span></code>
-or find <code class="docutils literal notranslate"><span class="pre">AllowOverride</span> <span class="pre">None``change</span> <span class="pre">to``AllowOverride</span> <span class="pre">All</span></code>.</p>
-<p>Find``DirectoryIndex index.html``add index.py <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span> <span class="pre">index.py</span></code>.</p>
-<p>Find and uncomment #  if only is comment with # <code class="docutils literal notranslate"><span class="pre">LoadModule</span> <span class="pre">rewrite_module</span> <span class="pre">modules/mod_rewrite.so``and</span>
-<span class="pre">``LoadModule</span> <span class="pre">alias_module</span> <span class="pre">modules/mod_alias.so</span></code>.</p>
-<p>When all the changes are made, save``httpd.conf``file, Restart Apache for changes to take effect.</p>
+<p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span></code> add .py  <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
+<p>Find <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">None</span></code> change to <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">ExecCGI</span></code>
+or find <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">+Indexes</span></code> change to <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">ExecCGI</span></code>
+or change to  <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">+Indexes</span> <span class="pre">FollowSymLinks</span> <span class="pre">+ExecCGI</span></code>
+or find <code class="docutils literal notranslate"><span class="pre">AllowOverride</span> <span class="pre">None</span></code> change to <code class="docutils literal notranslate"><span class="pre">AllowOverride</span> <span class="pre">All</span></code>.</p>
+<p>Find <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span></code> add index.py <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span> <span class="pre">index.py</span></code>.</p>
+<dl class="simple">
+<dt>Find and uncomment ‘#’ if only is comment with  <code class="docutils literal notranslate"><span class="pre">#LoadModule</span> <span class="pre">rewrite_module</span> <span class="pre">modules/mod_rewrite.so</span></code></dt><dd><p>and  <code class="docutils literal notranslate"><span class="pre">#LoadModule</span> <span class="pre">alias_module</span> <span class="pre">modules/mod_alias.so</span></code>.</p>
+</dd>
+</dl>
+<p>When all the changes are made, save <code class="docutils literal notranslate"><span class="pre">httpd.conf</span></code> file, Restart Apache for changes to take effect.</p>
 <p>Server is set and ready to run python CGI application which means you can deploy pytonik on it.
 Restart server and done.</p>
 </div>
@@ -192,9 +195,9 @@ Restart server and done.</p>
 <p>Some Cloud server requires CGI configuration while some have it already configured and enabled.
 All depends on the company who’s offering the services.  Look into <code class="docutils literal notranslate"><span class="pre">CGI</span></code> configuration on <code class="docutils literal notranslate"><span class="pre">CentOS</span></code>, <code class="docutils literal notranslate"><span class="pre">Linux</span></code>, <code class="docutils literal notranslate"><span class="pre">Ubuntu</span></code> and terminal will be used for configuration process.</p>
 <p><strong>CentOS</strong></p>
-<p>Install apache``sudo yum install httpd ``</p>
-<p>open the httpd.conf file``sudo nana /etc/httpd/conf/httpd.conf`` now set for editing.</p>
-<p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi``add</span> <span class="pre">.py</span>&#160; <span class="pre">``AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
+<p>Install apache <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">yum</span> <span class="pre">install</span> <span class="pre">httpd</span></code> open the httpd.conf file <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">nana</span> <span class="pre">/etc/httpd/conf/httpd.conf</span></code>
+now set for editing.</p>
+<p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span></code> add .py  <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
 <p>Find <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span></code> add index.py <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span> <span class="pre">index.py</span></code></p>
 <p>When all the changes are made, save httpd.conf file, changes takes effect.</p>
 <p>Server is set and ready to run python CGI application which means you can deploy pytonik on it.
